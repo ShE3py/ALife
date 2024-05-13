@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wpedantic -Wall -Wextra -fanalyzer -g -Iglad/include
+CFLAGS = -Wpedantic -Wall -Wextra -Wno-unused -fanalyzer -g -Iglad/include
 LFLAGS = -lglfw
 
 physarum: out/gl.o out/main.o
