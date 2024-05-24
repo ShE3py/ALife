@@ -7,57 +7,145 @@
 
 #include "codec.h"
 
-static const int WIDTH = 720;
-static const int HEIGHT = 480;
+#define STATIC static
+#include "config.h"
 
 // Minimum OpenGL version: 3.0
 
-GLuint createProgram(const char *vshFilename, const char *fshFilename) {
-    FILE *f = fopen(vshFilename, "rb");
+char* read_to_string(const char *filename, long *outLen) {
+    FILE *f = fopen(filename, "rb");
     if(!f) {
-        perror(vshFilename);
+        perror(filename);
         exit(-1);
     }
     fseek(f, 0, SEEK_END);
-    GLint len = ftell(f);
-    GLchar *src = malloc(len);
+    long len = ftell(f);
+    char *str = malloc(len + 1);
+    if(!str) {
+        perror("malloc");
+        exit(1);
+    }
     fseek(f, 0, SEEK_SET);
-    fread(src, 1, len, f);
+    fread(str, 1, len, f);
     fclose(f);
+    
+    if(outLen) {
+        *outLen = len;
+    }
+    str[len] = '\0';
+    return str;
+}
+
+size_t extract_version(const char *shader) {
+    if(strncmp("#version", shader, 8) == 0) {
+        size_t i = 8;
+        while(shader[i] != '\0' && shader[i] != '\n') {
+            ++i;
+        }
+        if(shader[i] == '\n') {
+            ++i;
+        }
+        
+        return i;
+    }
+    
+    return 0;
+}
+
+GLuint createProgram(const char *vshFilename, const char *fshFilename) {
+    long configLen;
+    char *config = read_to_string("src/config.c", &configLen);
+    
+    long len;
+    char *src = read_to_string(vshFilename, &len);
+    
+    size_t i = extract_version(src);
+    char *version = malloc(i);
+    if(!version) {
+        perror("malloc");
+        exit(1);
+    }
+    memcpy(version, src, i);
+    
+    GLchar *sources[3] = { version, config, src + i };
+    GLint lengths[3] = { i, configLen, len };
     
     GLuint vsh = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vsh, 1, (const GLchar* const*) &src, &len);
+    glShaderSource(vsh, 3, (const GLchar* const*) sources, lengths);
     glCompileShader(vsh);
+    free(src);
+    free(version);
     
-    f = fopen(fshFilename, "rb");
-    if(!f) {
-        perror(fshFilename);
-        exit(-1);
+    src = read_to_string(fshFilename, &len);
+    i = extract_version(src);
+    version = malloc(i);
+    if(!version) {
+        perror("malloc");
+        exit(1);
     }
-    fseek(f, 0, SEEK_END);
-    len = ftell(f);
-    src = realloc(src, len);
-    fseek(f, 0, SEEK_SET);
-    fread(src, 1, len, f);
-    fclose(f);
+    memcpy(version, src, i);
     
+    sources[0] = version;
+    lengths[0] = i;
+    sources[2] = src + i;
+    lengths[2] = len;
+
     GLuint fsh = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fsh, 1, (const GLchar* const*) &src, &len);
+    glShaderSource(fsh, 3, (const GLchar* const*) sources, lengths);
     glCompileShader(fsh);
+    free(src);
+    free(version);
+    free(config);
     
+    GLint vStatus;
+    glGetShaderiv(vsh, GL_COMPILE_STATUS, &vStatus);
+    if(vStatus == GL_FALSE) {
+        GLint logLen;
+        glGetShaderiv(vsh, GL_INFO_LOG_LENGTH, &logLen);
+        GLchar *log = malloc(logLen);
+        glGetShaderInfoLog(vsh, logLen, NULL, log);
+        fprintf(stderr, "could not compile `%s`: %s\n", vshFilename, log);
+        free(log);
+    }
+    
+    GLint fStatus;
+    glGetShaderiv(fsh, GL_COMPILE_STATUS, &fStatus);
+    if(fStatus == GL_FALSE) {
+        GLint logLen;
+        glGetShaderiv(fsh, GL_INFO_LOG_LENGTH, &logLen);
+        GLchar *log = malloc(logLen);
+        glGetShaderInfoLog(fsh, logLen, NULL, log);
+        fprintf(stderr, "could not compile `%s`: %s\n", fshFilename, log);
+        free(log);
+        exit(1);
+    }
+    else if(vStatus == GL_FALSE) {
+        exit(1);
+    }
+
     GLuint program = glCreateProgram();
     glAttachShader(program, vsh);
     glAttachShader(program, fsh);
     glLinkProgram(program);
     
+    GLint lStatus;
+    glGetProgramiv(program, GL_LINK_STATUS, &lStatus);
+    if(lStatus == GL_FALSE) {
+        GLint logLen;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLen);
+        GLchar *log = malloc(logLen);
+        glGetProgramInfoLog(program, logLen, NULL, log);
+        fprintf(stderr, "could not link `%s` and `%s`: %s\n", vshFilename, fshFilename, log);
+        free(log);
+        exit(1);
+    }
+
     glDetachShader(program, vsh);
     glDeleteShader(vsh);
-    
+
     glDetachShader(program, fsh);
     glDeleteShader(fsh);
-    
-    free(src);
-    
+
     return program;
 }
 
@@ -156,7 +244,12 @@ int main() {
     
     glDebugMessageCallback(debugCallback, NULL);
     
-    float initial[WIDTH * HEIGHT * 3];
+    float *initial = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
+    if(!initial) {
+        perror("malloc");
+        exit(1);
+    }
+    
     for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
         initial[3 * i    ] = rand() / (float) RAND_MAX > 0.99;
         initial[3 * i + 1] = rand() / (float) RAND_MAX; // (float) (int) (rand() / (float) RAND_MAX * 8) / 8;
@@ -178,6 +271,7 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_FLOAT, &initial[0]);
+    free(initial);
     
     GLuint frameBuf;
     glGenFramebuffers(1, &frameBuf);
@@ -215,7 +309,7 @@ int main() {
         glDrawArrays(GL_QUADS, 0, 4);
         
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, WIDTH, HEIGHT);
-        write_frame();
+        //write_frame();
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glUseProgram(renderer);

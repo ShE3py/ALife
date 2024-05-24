@@ -6,14 +6,13 @@
 
 #include <glad/gl.h>
 
+#include "config.h"
+
 // https://stackoverflow.com/a/31685135
 void FBO_2_PPM_file() {
-    int output_width = 720;
-    int output_height = 480;
-
-    unsigned char *pixels = malloc(output_width * output_height * 3);
+    unsigned char *pixels = malloc(WIDTH * HEIGHT * 3);
     glReadBuffer(GL_COLOR_ATTACHMENT0);
-    glReadPixels(0, 0, output_width, output_height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+    glReadPixels(0, 0, WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
     
     static uint64_t frame = 0;
     
@@ -29,12 +28,12 @@ void FBO_2_PPM_file() {
     }
     
     fprintf(f, "P3\n");
-    fprintf(f, "%d %d\n", output_width, output_height);
+    fprintf(f, "%d %d\n", WIDTH, HEIGHT);
     fprintf(f, "255\n");
 
     int k = 0;
-    for(int i = 0; i < output_width; ++i) {
-        for(int j = 0; j < output_height; ++j) {
+    for(int i = 0; i < WIDTH; ++i) {
+        for(int j = 0; j < HEIGHT; ++j) {
             fprintf(f, "%u %u %u ", (unsigned int) pixels[k], 0 /* (unsigned int) pixels[k + 1] */, (unsigned int) pixels[k + 2]);
             k += 3;
         }
