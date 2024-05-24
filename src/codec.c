@@ -31,11 +31,11 @@ void FBO_2_PPM_file() {
     fprintf(f, "%d %d\n", WIDTH, HEIGHT);
     fprintf(f, "255\n");
 
-    int k = 0;
-    for(int i = 0; i < WIDTH; ++i) {
-        for(int j = 0; j < HEIGHT; ++j) {
+    for(int j = 0; j < HEIGHT; ++j) {
+        for(int i = 0; i < WIDTH; ++i) {
+            int k = ((HEIGHT - j - 1) * HEIGHT + i) * 3;
+            
             fprintf(f, "%u %u %u ", (unsigned int) pixels[k], 0 /* (unsigned int) pixels[k + 1] */, (unsigned int) pixels[k + 2]);
-            k += 3;
         }
         fprintf(f, "\n");
     }
