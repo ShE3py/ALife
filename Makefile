@@ -16,7 +16,7 @@ out/codec.o: src/codec.c
 src/codec.c: src/codec.h src/config.h
 
 out/config.o: src/config.c
-	gcc $(CFLAGS) -Duint="unsigned int" -c $< -o $@
+	gcc $(CFLAGS) -Duint="unsigned int" -Dbool="_Bool" -Dtrue="1" -Dfalse="0" -c $< -o $@
 
 out/gl.o: glad/src/gl.c
 	gcc $(CFLAGS) -c $< -o $@

@@ -9,6 +9,11 @@ const int WIDTH = 720;
  */
 const int HEIGHT = 480;
 
+/**
+ * Le monde est-il un tore ?
+ */
+const bool WRAP = false;
+
 /*
  * La distance à laquelle les cellules voient.
  */

@@ -60,6 +60,10 @@ GLuint createProgram(const char *vshFilename, const char *fshFilename) {
     char *src = read_to_string(vshFilename, &len);
     
     size_t i = extract_version(src);
+    if(i == 0) {
+        fprintf(stderr, "missing #version");
+        exit(1);
+    }
     char *version = malloc(i);
     if(!version) {
         perror("malloc");
@@ -67,17 +71,24 @@ GLuint createProgram(const char *vshFilename, const char *fshFilename) {
     }
     memcpy(version, src, i);
     
-    GLchar *sources[3] = { version, config, src + i };
-    GLint lengths[3] = { i, configLen, len };
+    const char *line = "#line 1\n";
+    const size_t lineLen = 8;
+    
+    const GLchar* sources[4] = { version, config, line, src + i };
+    GLint lengths[4] = { i, configLen, lineLen, len };
     
     GLuint vsh = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vsh, 3, (const GLchar* const*) sources, lengths);
+    glShaderSource(vsh, 4, sources, lengths);
     glCompileShader(vsh);
     free(src);
     free(version);
     
     src = read_to_string(fshFilename, &len);
     i = extract_version(src);
+    if(i == 0) {
+        fprintf(stderr, "missing #version");
+        exit(1);
+    }
     version = malloc(i);
     if(!version) {
         perror("malloc");
@@ -87,11 +98,11 @@ GLuint createProgram(const char *vshFilename, const char *fshFilename) {
     
     sources[0] = version;
     lengths[0] = i;
-    sources[2] = src + i;
-    lengths[2] = len;
+    sources[3] = src + i;
+    lengths[3] = len;
 
     GLuint fsh = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fsh, 3, (const GLchar* const*) sources, lengths);
+    glShaderSource(fsh, 4, sources, lengths);
     glCompileShader(fsh);
     free(src);
     free(version);

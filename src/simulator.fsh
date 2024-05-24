@@ -14,7 +14,12 @@ ivec2 ray(ivec2 origin, uint d, float phi) {
     phi *= TAU;
     vec2 delta = d * vec2(cos(phi), sin(phi));
     
-    return ivec2(origin + ivec2(WIDTH, HEIGHT) + delta) % ivec2(WIDTH, HEIGHT);
+    if(WRAP) {
+        return ivec2(origin + ivec2(WIDTH, HEIGHT) + delta) % ivec2(WIDTH, HEIGHT);
+    }
+    else {
+        return origin + ivec2(delta);
+    }
 }
 
 /*
@@ -26,7 +31,11 @@ float material(vec2 xy) {
     float sum = 0;
     for(int dx = -ssize; dx <= ssize; ++dx) {
         for(int dy = -ssize; dy <= ssize; ++dy) {
-            sum += texelFetch(world, ivec2(xy.x + dx + WIDTH, xy.y + dy + HEIGHT) % ivec2(WIDTH, HEIGHT), 0).b;
+            ivec2 pos = ivec2(xy) + ivec2(dx, dy);
+            if(WRAP) {
+                pos = (pos + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            }
+            sum += texelFetch(world, pos, 0).b;
         }
     }
     
@@ -50,7 +59,10 @@ void main() {
     // Déplacement des cellules
     for(int dx = -int(STEP_LENGTH); dx <= int(STEP_LENGTH); ++dx) {
         for(int dy = -int(STEP_LENGTH); dy <= int(STEP_LENGTH); ++dy) {
-            ivec2 neigh = (coord + ivec2(dx, dy) + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            ivec2 neigh = coord + ivec2(dx, dy);
+            if(WRAP) {
+                neigh = (neigh + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            }
             vec4 neighbor = texelFetch(world, neigh, 0);
             
             if(neighbor.r != 0 && neigh != coord && ray(neigh, STEP_LENGTH, 1 - neighbor.g) == coord) {
@@ -60,10 +72,23 @@ void main() {
         }
     }
     
+    // Tourner la cellule si celle-ci sortira du monde
+    if(!WRAP && data.r != 0) {
+        ivec2 next = ray(coord, STEP_LENGTH, data.g);
+        if(next.x < 0 || next.x > WIDTH || next.y < 0 || next.y > HEIGHT) {
+            color.r = data.r;
+            color.g = 1 - data.g;
+        }
+    }
+    
     // Diffusion
     for(int dx = -int(DIFFUSION_SIZE / 2u); dx <= int(DIFFUSION_SIZE / 2u); ++dx) {
         for(int dy = -int(DIFFUSION_SIZE / 2u); dy <= int(DIFFUSION_SIZE / 2u); ++dy) {
-            color.b += texelFetch(world, (coord + ivec2(dx, dy) + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT), 0).b / (DIFFUSION_SIZE * DIFFUSION_SIZE);
+            ivec2 pos = coord + ivec2(dx, dy);
+            if(WRAP) {
+                pos = (pos + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            }
+            color.b += texelFetch(world, pos, 0).b / (DIFFUSION_SIZE * DIFFUSION_SIZE);
         }
     }
     
@@ -73,7 +98,11 @@ void main() {
     // Dépôt
     for(int dx = -int(DEPOSIT_SIZE / 2u); dx <= int(DEPOSIT_SIZE / 2u); ++dx) {
         for(int dy = -int(DEPOSIT_SIZE / 2u); dy <= int(DEPOSIT_SIZE / 2u); ++dy) {
-            vec4 neighbor = texelFetch(world, (coord + ivec2(dx, dy) + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT), 0);
+            ivec2 pos = coord + ivec2(dx, dy);
+            if(WRAP) {
+                pos = (pos + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            }
+            vec4 neighbor = texelFetch(world, pos, 0);
             if(neighbor.r != 0) {
                 color.b += DEPOSIT_AMOUNT;
             }
