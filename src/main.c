@@ -155,11 +155,13 @@ int main() {
     glDebugMessageCallback(debugCallback, NULL);
     
     float initial[WIDTH * HEIGHT * 3];
-    for(size_t i = 0; i < WIDTH * HEIGHT; ++i) {
+    for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
         initial[3 * i    ] = rand() / (float) RAND_MAX > 0.99;
-        initial[3 * i + 1] = 0;
+        initial[3 * i + 1] = rand() / (float) RAND_MAX; // (float) (int) (rand() / (float) RAND_MAX * 8) / 8;
         initial[3 * i + 2] = 0;
     }
+    
+    //initial[3 * (HEIGHT / 2 * WIDTH + WIDTH / 2)] = 1;
     
     GLuint frameTex;
     glGenTextures(1, &frameTex);
@@ -167,7 +169,6 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_FLOAT, &initial[0]);
-    glActiveTexture(GL_TEXTURE0);
     
     GLuint worldTex;
     glGenTextures(1, &worldTex);
