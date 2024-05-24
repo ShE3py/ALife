@@ -8,9 +8,20 @@
 
 #include "config.h"
 
+static unsigned char *pixels;
+
+__attribute__((constructor))
+static void ctor() {
+    pixels = malloc(WIDTH * HEIGHT * 3);
+}
+
+__attribute__((destructor))
+static void dtor() {
+    free(pixels);
+}
+
 // https://stackoverflow.com/a/31685135
-void FBO_2_PPM_file() {
-    unsigned char *pixels = malloc(WIDTH * HEIGHT * 3);
+static void FBO_2_PPM_file() {
     glReadBuffer(GL_COLOR_ATTACHMENT0);
     glReadPixels(0, 0, WIDTH, HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
     
@@ -39,7 +50,6 @@ void FBO_2_PPM_file() {
         }
         fprintf(f, "\n");
     }
-    free(pixels);
     fclose(f);
 }
 
