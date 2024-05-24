@@ -5,6 +5,8 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+#include "codec.h"
+
 static const int WIDTH = 720;
 static const int HEIGHT = 480;
 
@@ -213,6 +215,7 @@ int main() {
         glDrawArrays(GL_QUADS, 0, 4);
         
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, WIDTH, HEIGHT);
+        write_frame();
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glUseProgram(renderer);
