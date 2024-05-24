@@ -12,7 +12,7 @@ const int HEIGHT = 480;
 /**
  * Le monde est-il un tore ?
  */
-const bool WRAP = false;
+const bool WRAP = true;
 
 /*
  * La distance à laquelle les cellules voient.

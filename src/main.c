@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
@@ -261,6 +262,10 @@ int main() {
         exit(1);
     }
     
+    unsigned int seed = time(NULL);
+    printf("Seed is %u\n", seed);
+    
+    srand(seed);
     for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
         initial[3 * i    ] = rand() / (float) RAND_MAX > 0.95;
         initial[3 * i + 1] = rand() / (float) RAND_MAX; // (float) (int) (rand() / (float) RAND_MAX * 8) / 8;
