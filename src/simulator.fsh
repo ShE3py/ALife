@@ -26,7 +26,7 @@ ivec2 ray(ivec2 origin, uint d, float phi) {
  * Renvoie la somme totale de matériel dans le rayon du capteur autour du point spécifié.
  */
 float material(vec2 xy) {
-    int ssize = int(SENSOR_SIZE);
+    int ssize = int(SENSOR_SIZE / 2u);
     
     float sum = 0;
     for(int dx = -ssize; dx <= ssize; ++dx) {
