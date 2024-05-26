@@ -262,6 +262,11 @@ int main() {
         exit(1);
     }
     
+    /*
+     * Seed intéressantes :
+     * seed (widthxheight wrap bounce)
+     * 1716745735 (1080x720 t f)
+     */
     unsigned int seed = time(NULL);
     printf("Seed is %u\n", seed);
     

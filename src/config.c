@@ -2,17 +2,24 @@
 /**
  * La largueur de la fenêtre en pixels.
  */
-const int WIDTH = 720;
+const int WIDTH = 1920;
 
 /**
  * La hauteur de la fenêtre en pixels.
  */
-const int HEIGHT = 480;
+const int HEIGHT = 1080;
 
 /**
  * Le monde est-il un tore ?
  */
 const bool WRAP = true;
+
+/**
+ * Le comportement si deux cellules se déplacent sur la même cellule ;
+ * `true`: l'orientation de la nouvelle cellule est la moyenne des cellules entrantes pondérée par la matière.
+ * `false`: l'orientation de la nouvelle cellule est celle de la cellule entrante la plus à gauche, puis la plus en haut.
+ */
+const bool BOUNCE = true;
 
 /*
  * La distance à laquelle les cellules voient.

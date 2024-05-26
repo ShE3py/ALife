@@ -54,7 +54,7 @@ void main() {
     // .b = nourriture
     vec4 data = texelFetch(world, coord, 0);
     
-    color = vec3(0);
+    color = vec3(0, 0, -1);
     
     // Déplacement des cellules
     for(int dx = -int(STEP_LENGTH); dx <= int(STEP_LENGTH); ++dx) {
@@ -66,11 +66,17 @@ void main() {
             vec4 neighbor = texelFetch(world, neigh, 0);
             
             if(neighbor.r != 0 && neigh != coord && ray(neigh, STEP_LENGTH, 1 - neighbor.g) == coord) {
-                color.rg = neighbor.rg;
-                break;
+                color.g = (color.r == 0) ? neighbor.g : (color.g * color.b + neighbor.g * neighbor.b) / (color.b + neighbor.b);
+                color.b = (color.b == -1) ? neighbor.b : (color.b + neighbor.b) / 2;
+                color.r = 1;
+                if(!BOUNCE) {
+                    // équivaut à `color.rg = neighbor.rg`
+                    break;
+                }
             }
         }
     }
+    color.b = 0;
     
     // Tourner la cellule si celle-ci sortira du monde
     if(!WRAP && data.r != 0) {
