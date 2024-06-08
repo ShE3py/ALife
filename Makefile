@@ -25,5 +25,5 @@ clean:
 	rm -rf out/*
 
 video:
-	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 17 -tune stillimage physarum.mp4
+	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage physarum.mp4
 

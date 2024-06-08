@@ -2,12 +2,12 @@
 /**
  * La largueur de la fenêtre en pixels.
  */
-const int WIDTH = 1920;
+const int WIDTH = 720;
 
 /**
  * La hauteur de la fenêtre en pixels.
  */
-const int HEIGHT = 1080;
+const int HEIGHT = 720;
 
 /**
  * Le monde est-il un tore ?
@@ -34,7 +34,7 @@ const float SENSOR_ANGLE = 0.125;
 /*
  * Côté du carré que les cellules voient.
  */
-const uint SENSOR_SIZE = 5u;
+const uint SENSOR_SIZE = 10u;
 
 /*
  * Distance que les cellules parcourent en un pas.

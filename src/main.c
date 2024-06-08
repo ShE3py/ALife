@@ -267,7 +267,7 @@ int main() {
      * seed (widthxheight wrap bounce)
      * 1716745735 (1080x720 t f)
      */
-    unsigned int seed = time(NULL);
+    unsigned int seed = 1716756894; // time(NULL);
     printf("Seed is %u\n", seed);
     
     srand(seed);
