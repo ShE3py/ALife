@@ -2,10 +2,9 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "config.h"
-
 #include "common/lib.h"
 #include "common/shader.h"
+#include "common/config.h"
 
 // Minimum OpenGL version: 3.0
 
@@ -34,9 +33,9 @@ int main() {
         initial[3 * i + 2] = 0;
     }
     
-    GLuint sPassthrough = createShader("src/passthrough.vsh", GL_VERTEX_SHADER, "src/config.c");
-    GLuint sRenderer = createShader("src/renderer.fsh", GL_FRAGMENT_SHADER, "src/config.c");
-    GLuint sSimulator = createShader("src/simulator.fsh", GL_FRAGMENT_SHADER, "src/config.c");
+    GLuint sPassthrough = createShader("src/common/passthrough.vsh", GL_VERTEX_SHADER  , "src/physarum/config.c");
+    GLuint sRenderer    = createShader("src/physarum/renderer.fsh" , GL_FRAGMENT_SHADER, "src/physarum/config.c");
+    GLuint sSimulator   = createShader("src/physarum/simulator.fsh", GL_FRAGMENT_SHADER, "src/physarum/config.c");
     
     GLuint pRenderer = createProgram(sPassthrough, sRenderer);
     GLuint pSimulator = createProgram(sPassthrough, sSimulator);
