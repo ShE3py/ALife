@@ -58,8 +58,6 @@ GLuint createShader(const char *filename, GLenum shaderType, const char *configF
         exit(1);
     }
     
-    // `stderr` car utilisé si échec de l'édition des liens qui affiche les n° sur stderr
-    fprintf(stderr, "compiled `%s` as `%" PRIu32 "`\n", filename, shader);
     return shader;
 }
 
@@ -80,7 +78,7 @@ GLuint createProgram(GLuint vertexShader, GLuint fragmentShader) {
             exit(1);
         }
         glGetProgramInfoLog(program, logLen, NULL, log);
-        fprintf(stderr, "could not link `%" PRIu32 "` and `%" PRIu32 "`: %s\n", vertexShader, fragmentShader, log);
+        fprintf(stderr, "could not link %" PRIu32 " and %" PRIu32 ": %s\n", vertexShader, fragmentShader, log);
         free(log);
         exit(1);
     }

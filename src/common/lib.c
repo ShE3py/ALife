@@ -36,6 +36,7 @@ void init(const char *title) {
     }
     
     glDebugMessageCallback(gl_callback, NULL);
+    glfwSwapInterval(1);
 }
 
 void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
