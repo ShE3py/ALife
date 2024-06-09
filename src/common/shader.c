@@ -5,6 +5,8 @@
 #include <string.h>
 #include <inttypes.h>
 
+#include <glad/gl.h>
+
 static char* read_to_string(const char*, long*);
 static size_t extract_version(const char*);
 
