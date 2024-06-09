@@ -22,28 +22,63 @@ ivec2 ray(ivec2 origin, uint d, float phi) {
     return ivec2(origin + ivec2(WIDTH, HEIGHT) + delta) % ivec2(WIDTH, HEIGHT);
 }
 
+/**
+ * Renvoie si une donnée correspond au composant O.
+ */
+bool eq(vec4 data, float O) {
+    return abs(data.r - O) < T;
+}
+
 void main() {
     ivec2 coord = ivec2(gl_FragCoord.xy);
     
     // .r = composant (X, A, B, C, D)
     // .g = orientation (si A, B, D), normale (si C)
-    // .b = catalyseur
+    // .b = catalyseur (si X, A, B, D), durée de vie restante (si C)
     vec4 data = texelFetch(world, coord, 0);
     
-    color = vec3(data.rg, 0);
+    color = vec3(X, data.g, 0);
     
-    // Propogation de la catalyse
-    float d = distance(coord, CELL);
-    if(d <= CELL_RADIUS) {
-        float alpha = acos(dot(normalize(coord - CELL), vec2(1, 0)));
-        if(coord.y < CELL.y) {
-            // [0,π] -> [0,τ]
-            alpha = TAU - alpha;
-        }
+    // Dégradation de la membrane
+    if(eq(data, C)) {
+        color.r = C;
+        color.b = data.b - 0.005;
         
-        ivec2 membrane = ray(CELL, CELL_RADIUS, alpha / TAU);
-        if(abs(texelFetch(world, membrane, 0).r - C) < A) {
-            color.b = 1 - clamp(distance(coord, membrane) / CATALYST_RANGE, 0, 1);
+        if(color.b <= 0) {
+            color.r = D;
+            color.b = 0;
+        }
+    }
+    // Propogation de la catalyse
+    else {
+        float d = distance(coord, CELL);
+        if(d < CELL_RADIUS) {
+            float alpha = acos(dot(normalize(coord - CELL), vec2(1, 0)));
+            if(coord.y < CELL.y) {
+                // [0,π] -> [0,τ]
+                alpha = TAU - alpha;
+            }
+            
+            ivec2 membrane = ray(CELL, CELL_RADIUS, alpha / TAU);
+            if(eq(texelFetch(world, membrane, 0), C)) {
+                color.b = 1 - clamp(distance(coord, membrane) / CATALYST_RANGE, 0, 1);
+            }
+        }
+    }
+    
+    // Déplacement des composants
+    if(eq(data, X)) {
+        for(int dx = -int(COMPOUND_SPEED); dx <= int(COMPOUND_SPEED); ++dx) {
+            for(int dy = -int(COMPOUND_SPEED); dy <= int(COMPOUND_SPEED); ++dy) {
+                ivec2 neigh = coord + ivec2(dx, dy);
+                neigh = (neigh + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+                vec4 neighbor = texelFetch(world, neigh, 0);
+                
+                if(!eq(neighbor, C) && neigh != coord && ray(neigh, COMPOUND_SPEED, 1 - neighbor.g) == coord) {
+                    color.rg = neighbor.rg;
+                    break;
+                }
+            }
         }
     }
 }

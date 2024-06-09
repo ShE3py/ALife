@@ -3,6 +3,6 @@
 /physarum
 /autopoiesis
 
-/frame/
-/physarum.mp4
+/frame/*.ppm
+/*.mp4
 

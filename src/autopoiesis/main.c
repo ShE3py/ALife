@@ -35,6 +35,7 @@ int main() {
         int i = x * HEIGHT + y;
         initial[3 * i] = C;
         initial[3 * i + 1] = alpha;
+        initial[3 * i + 2] = rand() / (float) RAND_MAX;
     }
     
     GLuint sPassthrough = createShader("src/common/passthrough.vsh", GL_VERTEX_SHADER  , "src/autopoiesis/config.c");

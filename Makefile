@@ -10,7 +10,7 @@ physarum: out/physarum/main.o out/physarum/config.o
 autopoiesis: out/autopoiesis/main.o out/autopoiesis/config.o
 	gcc $(CFLAGS) $^ $(LFLAGS) -lm -o $@
 
-out/libcommon.a: out/common/lib.o out/common/shader.o out/gl.o
+out/libcommon.a: out/common/lib.o out/common/shader.o out/common/snap.o out/gl.o
 	ar rcs $@ $^
 
 out/%/main.o: src/%/main.c src/%/config.c out/libcommon.a
@@ -35,5 +35,5 @@ clean:
 	mkdir -p out/autopoiesis
 
 video:
-	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage physarum.mp4
+	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage autopoiesis.mp4
 

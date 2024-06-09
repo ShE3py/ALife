@@ -19,12 +19,41 @@ const uint CELL_RADIUS = 100u;
  */
 const uint CATALYST_RANGE = 20u;
 
+/**
+ * La vitesse de déplacement des composants.
+ */
+const uint COMPOUND_SPEED = 3u;
 
-// NOMBRES MAGIQUES //
+
+// CONSTANTES MAGIQUES //
  
+/**
+ * Composant: aucun
+ */
 const float X = 0.00;
+
+/**
+ * Composant: A
+ */
 const float A = 0.25;
+
+/**
+ * Composant: B
+ */
 const float B = 0.50;
+
+/**
+ * Composant: C
+ */
 const float C = 0.75;
+
+/**
+ * Composant: D
+ */
 const float D = 1.00;
+
+/**
+ * Seuil à partir duquel deux composants sont égaux.
+ */
+const float T = 0.25;
 

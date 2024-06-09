@@ -6,6 +6,8 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+#include "snap.h"
+
 static APIENTRY void gl_callback(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar*, const void*);
 static void glfw_callback(int, const char*);
 
@@ -88,7 +90,7 @@ void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
         glDrawArrays(GL_QUADS, 0, 4);
         
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
-        //write_frame();
+        write_frame();
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glUseProgram(renderer);

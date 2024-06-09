@@ -1,4 +1,4 @@
-#include "codec.h"
+#include "snap.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +6,7 @@
 
 #include <glad/gl.h>
 
-#include "config.h"
+#include "common/config.h"
 
 static unsigned char *pixels;
 
@@ -54,6 +54,8 @@ static void FBO_2_PPM_file() {
 }
 
 void write_frame() {
-    FBO_2_PPM_file();
+    if(getenv("SNAP")) {
+        FBO_2_PPM_file();
+    }
 }
 
