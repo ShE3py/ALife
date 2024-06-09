@@ -2,13 +2,18 @@ CC = gcc
 CFLAGS = -Wpedantic -Wall -Wextra -Wno-unused -fanalyzer -g -Iglad/include
 LFLAGS = -lglfw
 
-physarum: out/gl.o out/main.o out/codec.o out/config.o
+physarum: out/gl.o out/main.o out/codec.o out/config.o out/common/shader.o
 	gcc $(CFLAGS) $(LFLAGS) $^ -o $@
 
 out/main.o: src/main.c
 	gcc $(CFLAGS) -c $< -o $@
 
 src/main.c: src/codec.h src/config.h
+
+out/common/shader.o: src/common/shader.c
+	gcc $(CFLAGS) -c $< -o $@
+
+src/common/shader.c: src/common/shader.h
 
 out/codec.o: src/codec.c
 	gcc $(CFLAGS) -c $< -o $@
