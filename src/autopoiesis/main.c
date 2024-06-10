@@ -56,7 +56,8 @@ int main() {
     GLuint pRenderer = createProgram(sPassthrough, sRenderer);
     GLuint pSimulator = createProgram(sPassthrough, sSimulator);
     
-    main_loop(initial, pRenderer, pSimulator);
+    setup(initial, pRenderer, pSimulator);
+    main_loop();
     uninit();
     
     return 0;

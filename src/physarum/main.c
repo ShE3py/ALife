@@ -1,13 +1,13 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-
+#include "common/wasm.h"
 #include "common/lib.h"
 #include "common/shader.h"
 #include "common/config.h"
 
 // Minimum OpenGL version: 3.0
 
+#ifdef __wasm__
+__attribute__((export_name("setup")))
+#endif // __wasm__
 int main() {
     /*
      * Seed intéressantes :
@@ -19,7 +19,9 @@ int main() {
     printf("Seed is %u\n", seed);
     
     set_size(WIDTH, HEIGHT);
+#ifndef __wasm__
     init("Blob");
+#endif // __wasm__
     
     float *initial = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
     if(!initial) {
@@ -40,8 +42,11 @@ int main() {
     GLuint pRenderer = createProgram(sPassthrough, sRenderer);
     GLuint pSimulator = createProgram(sPassthrough, sSimulator);
     
-    main_loop(initial, pRenderer, pSimulator);
+    setup(initial, pRenderer, pSimulator);
+#ifndef __wasm__
+    main_loop();
     uninit();
+#endif
     
     return 0;
 }

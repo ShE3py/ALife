@@ -1,23 +1,29 @@
 #include "lib.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "common/wasm.h"
 
-#include <glad/gl.h>
-#include <GLFW/glfw3.h>
+#ifndef __wasm__
+#  include <stdio.h>
+#  include <stdlib.h>
 
-#include "snap.h"
+#  include <GLFW/glfw3.h>
+#endif // __wasm__
 
-static APIENTRY void gl_callback(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar*, const void*);
-static void glfw_callback(int, const char*);
+#include "common/snap.h"
 
-static GLFWwindow *window = NULL;
 static int width = 0, height = 0;
 
+EXPORT("set_size")
 void set_size(int w, int h) {
     width = w;
     height = h;
 }
+
+#ifndef __wasm__
+static APIENTRY void gl_callback(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar*, const void*);
+static void glfw_callback(int, const char*);
+
+static GLFWwindow *window = NULL;
 
 void init(const char *title) {
     glfwSetErrorCallback(glfw_callback);
@@ -41,7 +47,25 @@ void init(const char *title) {
     glfwSwapInterval(1);
 }
 
-void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
+void next_frame();
+
+void main_loop() {
+     while(!glfwWindowShouldClose(window)) {
+        next_frame();
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+}
+#endif // __wasm__
+
+static GLuint renderer, simulator, frameBuf;
+
+EXPORT("setup")
+void setup(float *initial_frame, GLuint r, GLuint s) {
+    renderer = r;
+    simulator = s;
+    
     GLuint frameTex;
     glGenTextures(1, &frameTex);
     glBindTexture(GL_TEXTURE_2D, frameTex);
@@ -57,7 +81,6 @@ void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
     free(initial_frame);
     
-    GLuint frameBuf;
     glGenFramebuffers(1, &frameBuf);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTex, 0);
@@ -81,27 +104,26 @@ void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(0);
-    
-     while(!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
-        glUseProgram(simulator);
-        glDrawArrays(GL_QUADS, 0, 4);
-        
-        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
-        
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glUseProgram(renderer);
-        glDrawArrays(GL_QUADS, 0, 4);
-        
-        write_frame();
-        
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
 }
 
+EXPORT("next_frame")
+void next_frame() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
+    glUseProgram(simulator);
+    glDrawArrays(GL_QUADS, 0, 4);
+    
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glUseProgram(renderer);
+    glDrawArrays(GL_QUADS, 0, 4);
+    
+    write_frame();
+}
+
+#ifndef __wasm__
 void uninit() {
     glfwTerminate();
 }
@@ -185,4 +207,5 @@ static APIENTRY void gl_callback(GLenum source, GLenum type, GLuint id, GLenum s
     
     printf("%s %s in %s: %s\n", sev, ty, src, message);
 }
+#endif // __wasm__
 

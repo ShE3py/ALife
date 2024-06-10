@@ -1,5 +1,6 @@
 #include "snap.h"
 
+#ifndef __wasm__
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -91,4 +92,7 @@ static void FBO_2_PPM_file() {
 void write_frame() {
     FBO_2_PPM_file();
 }
+#else
+void write_frame() {}
+#endif // __wasm__
 

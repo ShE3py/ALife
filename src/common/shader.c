@@ -1,12 +1,13 @@
 #include "shader.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <inttypes.h>
+#include "wasm.h"
 
-#include <glad/gl.h>
+#ifndef __wasm__
+#  include <stdio.h>
+#  include <string.h>
+#endif
 
+#ifndef __wasm__
 static char* read_to_string(const char*, long*);
 static size_t extract_version(const char*);
 
@@ -60,6 +61,7 @@ GLuint createShader(const char *filename, GLenum shaderType, const char *configF
     
     return shader;
 }
+#endif
 
 GLuint createProgram(GLuint vertexShader, GLuint fragmentShader) {
     GLuint program = glCreateProgram();
@@ -86,6 +88,7 @@ GLuint createProgram(GLuint vertexShader, GLuint fragmentShader) {
     return program;
 }
 
+#ifndef __wasm__
 /**
  * Renvoie le contenu du fichier `filename` sous la forme d'une chaîne de caractères.
  * Si `outLen != NULL`, le modifie pour contenir la taille de la chaîne ('\0' exclu).
@@ -132,4 +135,5 @@ static size_t extract_version(const char *shader) {
     
     return 0;
 }
+#endif // __wasm__
 
