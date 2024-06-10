@@ -22,7 +22,7 @@ const uint CATALYST_RANGE = 70u;
 /**
  * Vitesse de dégradation de la membrane.
  */
-const float MEMBRANE_DEGRADATION_SPEED = 0.015;
+const float MEMBRANE_DEGRADATION_SPEED = 0.01;
 
 /**
  * La vitesse de déplacement des composants.

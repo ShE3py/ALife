@@ -21,20 +21,14 @@ bool eq(vec4 data, float O) {
 void main() {
     vec4 self = texelFetch(world, ivec2(gl_FragCoord.xy), 0);
     
-    if(eq(self, X)) {
-        color = vec3(0, 0, self.b);
-    }
-    else if(eq(self, A)) {
+    if(eq(self, A)) {
         color = vec3(1, 0, 0);
     }
     else if(eq(self, B)) {
         color = vec3(0, 1, 0);
     }
-    else if(eq(self, C)) {
-        color = vec3(1, 1, 0);
-    }
-    else if(eq(self, D)) {
-        color = vec3(0.5, 1, 0);
+    else {
+        color = vec3(0, 0, self.b);
     }
 }
 

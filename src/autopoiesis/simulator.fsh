@@ -45,7 +45,7 @@ void main() {
         color.b = self.b - MEMBRANE_DEGRADATION_SPEED;
         
         if(color.b <= 0) {
-            color.r = X;
+            color.r = D;
             color.b = 0;
         }
     }
@@ -68,7 +68,7 @@ void main() {
     
     // A + A + catalyse → B
     if(eq(self, A)) {
-        if(color.b > 0.5) {
+        if(color.b > 0.1) {
             color.r = B;
             self.r = B;
         }

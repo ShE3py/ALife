@@ -14,6 +14,7 @@ static int min(int, int, int, int);
 int main() {
     set_size(WIDTH, HEIGHT);
     init("Autopoïèse");
+    srand(time(NULL));
     
     float *initial = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
     if(!initial) {
