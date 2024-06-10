@@ -108,17 +108,34 @@ void main() {
         }
     }
     
+    // B -> C
+    if(abs(distance(coord, CELL) - CELL_RADIUS) < 1 && eq(vec4(color, 1), X)) {
+        for(int dx = -5; dx <= 5; ++dx) {
+            for(int dy = -5; dy <= 5; ++dy) {
+                ivec2 neigh = coord + ivec2(dx, dy);
+                neigh = (neigh + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+                vec4 neighbor = texelFetch(world, neigh, 0);
+                
+                if(eq(neighbor, B)) {
+                    color.r = C;
+                    color.b = 1;
+                }
+            }
+        }
+    }
+    
     // B ne peut pas traverser la membrane
     if(eq(vec4(color, 1), B)) {
         ivec2 next = ray(coord, COMPOUND_SPEED, color.g);
+        
         if(distance(next, CELL) >= CELL_RADIUS) {
             float g = color.g - 0.5;
             if(g < 0) g += 1;
             color.g = g;
         }
         
+        // Tue les B qui se sont échappées de la membrane
         if(distance(coord, CELL) >= CELL_RADIUS) {
-            // Tue les B qui se sont échappées de la membrane
             color.r = X;
         }
     }

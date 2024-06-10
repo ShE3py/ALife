@@ -17,12 +17,12 @@ const uint CELL_RADIUS = 200u;
 /**
  * La portée de la réaction de catalyse de la membrane.
  */
-const uint CATALYST_RANGE = 20u;
+const uint CATALYST_RANGE = 70u;
 
 /**
  * Vitesse de dégradation de la membrane.
  */
-const float MEMBRANE_DEGRADATION_SPEED = 0; // 0.005;
+const float MEMBRANE_DEGRADATION_SPEED = 0.015;
 
 /**
  * La vitesse de déplacement des composants.
