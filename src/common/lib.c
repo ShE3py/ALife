@@ -90,11 +90,12 @@ void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
         glDrawArrays(GL_QUADS, 0, 4);
         
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
-        write_frame();
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glUseProgram(renderer);
         glDrawArrays(GL_QUADS, 0, 4);
+        
+        write_frame();
         
         glfwSwapBuffers(window);
         glfwPollEvents();
