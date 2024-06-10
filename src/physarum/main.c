@@ -6,7 +6,7 @@
 // Minimum OpenGL version: 3.0
 
 #ifdef __wasm__
-__attribute__((export_name("setup")))
+__attribute__((export_name("_initialize")))
 #endif // __wasm__
 int main() {
     /*
