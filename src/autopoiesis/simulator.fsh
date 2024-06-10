@@ -35,21 +35,21 @@ void main() {
     // .r = composant (X, A, B, C, D)
     // .g = orientation (si A, B, D), normale (si C)
     // .b = catalyseur (si X, A, B, D), durée de vie restante (si C)
-    vec4 data = texelFetch(world, coord, 0);
+    vec4 self = texelFetch(world, coord, 0);
     
-    color = vec3(X, data.g, 0);
+    color = vec3(X, self.g, 0);
     
     // Dégradation de la membrane
-    if(eq(data, C)) {
+    if(eq(self, C)) {
         color.r = C;
-        color.b = data.b - 0.005;
+        color.b = self.b - MEMBRANE_DEGRADATION_SPEED;
         
         if(color.b <= 0) {
-            color.r = D;
+            color.r = X;
             color.b = 0;
         }
     }
-    // Propogation de la catalyse
+    // Calcul du rayon d'action de la catalyse
     else {
         float d = distance(coord, CELL);
         if(d < CELL_RADIUS) {
@@ -66,19 +66,60 @@ void main() {
         }
     }
     
+    // A + A + catalyse → B
+    if(eq(self, A)) {
+        if(color.b > 0.5) {
+            color.r = B;
+            self.r = B;
+        }
+    }
+    
     // Déplacement des composants
-    if(eq(data, X)) {
+    if(!eq(self, C)) {
         for(int dx = -int(COMPOUND_SPEED); dx <= int(COMPOUND_SPEED); ++dx) {
             for(int dy = -int(COMPOUND_SPEED); dy <= int(COMPOUND_SPEED); ++dy) {
                 ivec2 neigh = coord + ivec2(dx, dy);
                 neigh = (neigh + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
                 vec4 neighbor = texelFetch(world, neigh, 0);
                 
-                if(!eq(neighbor, C) && neigh != coord && ray(neigh, COMPOUND_SPEED, 1 - neighbor.g) == coord) {
-                    color.rg = neighbor.rg;
-                    break;
+                if(!eq(neighbor, C) && !eq(neighbor, X) && neigh != coord && ray(neigh, COMPOUND_SPEED, 1 - neighbor.g) == coord) {
+                    // Si collision de plusieurs particules, B > A > D
+                    if(eq(neighbor, B)) {
+                        color.rg = neighbor.rg;
+                        break;
+                    }
+                    
+                    if(eq(neighbor, D)) {
+                        // `==` car D réécrit seulement si aucun composant
+                        // n'a changé, c.-à-d. que l'on ait la valeur initiale X
+                        if(color.r == X) {
+                            color.rg = neighbor.rg;
+                        }
+                        
+                        continue;
+                    }
+                    
+                    // Reste: A
+                    if(!eq(vec4(color, 1), B)) {
+                        color.rg = neighbor.rg;
+                    }
                 }
             }
+        }
+    }
+    
+    // B ne peut pas traverser la membrane
+    if(eq(vec4(color, 1), B)) {
+        ivec2 next = ray(coord, COMPOUND_SPEED, color.g);
+        if(distance(next, CELL) >= CELL_RADIUS) {
+            float g = color.g - 0.5;
+            if(g < 0) g += 1;
+            color.g = g;
+        }
+        
+        if(distance(coord, CELL) >= CELL_RADIUS) {
+            // Tue les B qui se sont échappées de la membrane
+            color.r = X;
         }
     }
 }

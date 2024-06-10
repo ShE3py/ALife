@@ -12,12 +12,17 @@ const int HEIGHT = 720;
 /**
  * La taille de la cellule.
  */
-const uint CELL_RADIUS = 100u;
+const uint CELL_RADIUS = 200u;
 
 /**
  * La portée de la réaction de catalyse de la membrane.
  */
 const uint CATALYST_RANGE = 20u;
+
+/**
+ * Vitesse de dégradation de la membrane.
+ */
+const float MEMBRANE_DEGRADATION_SPEED = 0; // 0.005;
 
 /**
  * La vitesse de déplacement des composants.
@@ -55,5 +60,5 @@ const float D = 1.00;
 /**
  * Seuil à partir duquel deux composants sont égaux.
  */
-const float T = 0.25;
+const float T = 0.2;
 
