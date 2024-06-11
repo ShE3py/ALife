@@ -19,9 +19,6 @@ out/%/main.o: src/%/main.c src/%/config.c out/libcommon.a
 out/%.o: src/%.c src/%.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-out/gl.o: glad/src/gl.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
 out/%/config.o: src/%/config.c
 	$(CC) $(CFLAGS) -Duint="unsigned int" -Dbool="_Bool" -Dtrue="1" -Dfalse="0" -c $< -o $@
 

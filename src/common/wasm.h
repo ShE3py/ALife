@@ -3,11 +3,15 @@
 
 #ifndef __wasm__
 #  include <stdlib.h>
+#  include <stdio.h>
 #  include <inttypes.h>
 #  include <glad/gl.h>
+
+#  define EXPORT(s)
+#  define IMPORT(s)
 #else
 
-#define EXPORT(s) __attribute__((export_name(s), export_module("common")))
+#define EXPORT(s) __attribute__((export_name(s)))
 #define IMPORT(s) __attribute__((import_name(s), import_module("common")))
 
 #define NULL 0
@@ -15,10 +19,11 @@
 typedef unsigned long size_t;
 
 typedef int FILE;
+#define stdout ((FILE*) 0)
 #define stderr ((FILE*) 1)
 
 #define PRIu32 "u"
-int fprintf(FILE*, const char*, ...);
+IMPORT("fprintf") int fprintf(FILE*, const char*, ...);
 int printf(const char*, ...);
 
 void perror(const char*);
@@ -44,6 +49,7 @@ typedef char GLchar;
 typedef signed int GLsizeiptr;
 typedef unsigned int GLbitfield;
 typedef unsigned char GLboolean;
+typedef float GLfloat;
 
 #define APIENTRY
 #define GL_FALSE                          0
@@ -54,15 +60,19 @@ typedef unsigned char GLboolean;
 #define GL_TEXTURE_MIN_FILTER             0x2801
 #define GL_NEAREST                        0x2600
 #define GL_RGB                            0x1907
+#define GL_RGBA                           0x1908
 #define GL_FLOAT                          0x1406
 #define GL_FRAMEBUFFER                    0x8D40
 #define GL_COLOR_ATTACHMENT0              0x8CE0
 #define GL_ARRAY_BUFFER                   0x8892
 #define GL_STATIC_DRAW                    0x88E4
 #define GL_COLOR_BUFFER_BIT               0x00004000
-#define GL_QUADS                          0x0007
 #define GL_FRAGMENT_SHADER                0x8B30
 #define GL_VERTEX_SHADER                  0x8B31
+#define GL_PIXEL_UNPACK_BUFFER            0x88EC
+#define GL_UNPACK_ALIGNMENT               0x0CF5
+#define GL_TEXTURE0                       0x84C0
+#define GL_TRIANGLE_STRIP                 0x0005
 
 __attribute__((import_name("glCreateProgram"))) GLuint glCreateProgram(void);
 __attribute__((import_name("glAttachShader"))) void glAttachShader(GLuint, GLuint);
@@ -70,6 +80,7 @@ __attribute__((import_name("glLinkProgram"))) void glLinkProgram(GLuint);
 __attribute__((import_name("glGetProgramiv"))) void glGetProgramiv(GLuint, GLenum, GLint*);
 __attribute__((import_name("glGetProgramInfoLog"))) void glGetProgramInfoLog(GLuint, GLsizei, GLsizei*, GLchar*);
 __attribute__((import_name("glGenTextures"))) void glGenTextures(GLsizei, GLuint*);
+__attribute__((import_name("glActiveTexture"))) void glActiveTexture(GLenum);
 __attribute__((import_name("glBindTexture"))) void glBindTexture(GLenum, GLuint);
 __attribute__((import_name("glTexParameteri"))) void glTexParameteri(GLenum, GLenum, GLint);
 __attribute__((import_name("glTexImage2D"))) void glTexImage2D(GLenum, GLint, GLint, GLsizei, GLsizei, GLint, GLenum, GLenum, const void*);
@@ -84,10 +95,12 @@ __attribute__((import_name("glBindBuffer"))) void glBindBuffer(GLenum, GLuint);
 __attribute__((import_name("glBufferData"))) void glBufferData(GLenum, GLsizeiptr, const void*, GLenum);
 __attribute__((import_name("glVertexAttribPointer"))) void glVertexAttribPointer(GLuint, GLint, GLenum, GLboolean, GLsizei, const void*);
 __attribute__((import_name("glEnableVertexAttribArray"))) void glEnableVertexAttribArray(GLuint);
+__attribute__((import_name("glClearColor"))) void glClearColor(GLfloat, GLfloat, GLfloat, GLfloat);
 __attribute__((import_name("glClear"))) void glClear(GLbitfield);
 __attribute__((import_name("glUseProgram"))) void glUseProgram(GLuint);
 __attribute__((import_name("glDrawArrays"))) void glDrawArrays(GLenum, GLint, GLsizei);
 __attribute__((import_name("glCopyTexSubImage2D"))) void glCopyTexSubImage2D(GLenum, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei);
+__attribute__((import_name("glPixelStorei"))) void glPixelStorei(GLenum, GLint);
 
 #endif
 

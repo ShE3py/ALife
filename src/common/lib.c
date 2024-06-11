@@ -3,9 +3,6 @@
 #include "common/wasm.h"
 
 #ifndef __wasm__
-#  include <stdio.h>
-#  include <stdlib.h>
-
 #  include <GLFW/glfw3.h>
 #endif // __wasm__
 
@@ -59,12 +56,23 @@ void main_loop() {
 }
 #endif // __wasm__
 
-static GLuint renderer, simulator, frameBuf;
+static GLuint renderer, simulator, frameBuf, worldTex;
 
 EXPORT("setup")
 void setup(float *initial_frame, GLuint r, GLuint s) {
+    if(width == 0 || height == 0) {
+        fprintf(stderr, "`set_size` was not called");
+        exit(1);
+    }
+    
     renderer = r;
     simulator = s;
+    
+    GLuint pbo;
+    glGenBuffers(1, &pbo);
+    //glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
+    //glBufferData(GL_PIXEL_UNPACK_BUFFER, width * height * 3, &initial_frame[0], GL_STATIC_DRAW);
+    //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
     GLuint frameTex;
     glGenTextures(1, &frameTex);
@@ -88,8 +96,8 @@ void setup(float *initial_frame, GLuint r, GLuint s) {
     glDrawBuffers(1, &buf);
     
     const float quadVertices[8] = {
-        -1,  1,
         -1, -1,
+        -1,  1,
          1, -1,
          1,  1
     };
@@ -104,6 +112,8 @@ void setup(float *initial_frame, GLuint r, GLuint s) {
     glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(0);
+    
+    glClearColor(0, 0, 0, 1);
 }
 
 EXPORT("next_frame")
@@ -112,13 +122,13 @@ void next_frame() {
     
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
     glUseProgram(simulator);
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glUseProgram(renderer);
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     write_frame();
 }

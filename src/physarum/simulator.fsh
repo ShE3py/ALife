@@ -12,10 +12,10 @@ const float TAU = 6.28318530717958647692528676655900577;
  */
 ivec2 ray(ivec2 origin, uint d, float phi) {
     phi *= TAU;
-    vec2 delta = d * vec2(cos(phi), sin(phi));
+    vec2 delta = vec2(d) * vec2(cos(phi), sin(phi));
     
     if(WRAP) {
-        return ivec2(origin + ivec2(WIDTH, HEIGHT) + delta) % ivec2(WIDTH, HEIGHT);
+        return (origin + ivec2(WIDTH, HEIGHT) + ivec2(delta)) % ivec2(WIDTH, HEIGHT);
     }
     else {
         return origin + ivec2(delta);
@@ -25,10 +25,10 @@ ivec2 ray(ivec2 origin, uint d, float phi) {
 /*
  * Renvoie la somme totale de matériel dans le rayon du capteur autour du point spécifié.
  */
-float material(vec2 xy) {
+float material(ivec2 xy) {
     int ssize = int(SENSOR_SIZE / 2u);
     
-    float sum = 0;
+    float sum = 0.0;
     for(int dx = -ssize; dx <= ssize; ++dx) {
         for(int dy = -ssize; dy <= ssize; ++dy) {
             ivec2 pos = ivec2(xy) + ivec2(dx, dy);
@@ -65,10 +65,10 @@ void main() {
             }
             vec4 neighbor = texelFetch(world, neigh, 0);
             
-            if(neighbor.r != 0 && neigh != coord && ray(neigh, STEP_LENGTH, 1 - neighbor.g) == coord) {
-                color.g = (color.r == 0) ? neighbor.g : (color.g * color.b + neighbor.g * neighbor.b) / (color.b + neighbor.b);
-                color.b = (color.b == -1) ? neighbor.b : (color.b + neighbor.b) / 2;
-                color.r = 1;
+            if(neighbor.r != 0.0 && neigh != coord && ray(neigh, STEP_LENGTH, 1.0 - neighbor.g) == coord) {
+                color.g = (color.r == 0.0) ? neighbor.g : (color.g * color.b + neighbor.g * neighbor.b) / (color.b + neighbor.b);
+                color.b = (color.b == -1.0) ? neighbor.b : (color.b + neighbor.b) / 2.0;
+                color.r = 1.0;
                 if(!BOUNCE) {
                     // équivaut à `color.rg = neighbor.rg`
                     break;
@@ -76,14 +76,14 @@ void main() {
             }
         }
     }
-    color.b = 0;
+    color.b = 0.0;
     
     // Tourner la cellule si celle-ci sortira du monde
-    if(!WRAP && data.r != 0) {
+    if(!WRAP && data.r != 0.0) {
         ivec2 next = ray(coord, STEP_LENGTH, data.g);
         if(next.x < 0 || next.x > WIDTH || next.y < 0 || next.y > HEIGHT) {
             color.r = data.r;
-            color.g = 1 - data.g;
+            color.g = 1.0 - data.g;
         }
     }
     
@@ -94,7 +94,7 @@ void main() {
             if(WRAP) {
                 pos = (pos + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
             }
-            color.b += texelFetch(world, pos, 0).b / (DIFFUSION_SIZE * DIFFUSION_SIZE);
+            color.b += texelFetch(world, pos, 0).b / float(DIFFUSION_SIZE * DIFFUSION_SIZE);
         }
     }
     
@@ -109,14 +109,14 @@ void main() {
                 pos = (pos + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
             }
             vec4 neighbor = texelFetch(world, pos, 0);
-            if(neighbor.r != 0) {
+            if(neighbor.r != 0.0) {
                 color.b += DEPOSIT_AMOUNT;
             }
         }
     }
     
     // Changement d'orientation
-    if(color.r != 0) {
+    if(color.r != 0.0) {
         float front_material = material(ray(coord, SENSOR_DISTANCE, color.g));
         float left_material = material(ray(coord, SENSOR_DISTANCE, color.g + SENSOR_ANGLE));
         float right_material = material(ray(coord, SENSOR_DISTANCE, color.g - SENSOR_ANGLE));
@@ -128,7 +128,7 @@ void main() {
             color.g -= SENSOR_ANGLE;
         }
         else if(front_material < 0.1) {
-            color.g += random(coord / vec2(WIDTH, HEIGHT));
+            color.g += random(vec2(coord) / vec2(WIDTH, HEIGHT));
         }
     }
 }
