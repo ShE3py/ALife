@@ -9,7 +9,11 @@ typedef uint32_t GLenum;
 #define GL_FRAGMENT_SHADER 0x8B30
 #define GL_VERTEX_SHADER 0x8B31
 
+#ifdef __wasm__
+    __attribute__((import_name("createShader"), import_module("common")))
+#endif
 GLuint createShader(const char *filename, GLenum shaderType, const char *configFilename);
+
 GLuint createProgram(GLuint vertexShader, GLuint fragmentShader);
 
 #endif // COMMON_SHADER_H

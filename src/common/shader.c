@@ -5,8 +5,34 @@
 #include <string.h>
 #include <inttypes.h>
 
-#include <glad/gl.h>
+#include "gl.h"
 
+GLuint createProgram(GLshader vertexShader, GLshader fragmentShader) {
+    GLuint program = glCreateProgram();
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
+    glLinkProgram(program);
+    
+    GLint status;
+    glGetProgramiv(program, GL_LINK_STATUS, &status);
+    if(status == GL_FALSE) {
+        GLint logLen;
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLen);
+        GLchar *log = malloc(logLen);
+        if(!log) {
+            perror("malloc");
+            exit(1);
+        }
+        glGetProgramInfoLog(program, logLen, NULL, log);
+        fprintf(stderr, "could not link %" PRIu32 " and %" PRIu32 ": %s\n", vertexShader, fragmentShader, log);
+        free(log);
+        exit(1);
+    }
+    
+    return program;
+}
+
+#ifndef __wasm__
 static char* read_to_string(const char*, long*);
 static size_t extract_version(const char*);
 
@@ -61,31 +87,6 @@ GLuint createShader(const char *filename, GLenum shaderType, const char *configF
     return shader;
 }
 
-GLuint createProgram(GLuint vertexShader, GLuint fragmentShader) {
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
-    
-    GLint status;
-    glGetProgramiv(program, GL_LINK_STATUS, &status);
-    if(status == GL_FALSE) {
-        GLint logLen;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLen);
-        GLchar *log = malloc(logLen);
-        if(!log) {
-            perror("malloc");
-            exit(1);
-        }
-        glGetProgramInfoLog(program, logLen, NULL, log);
-        fprintf(stderr, "could not link %" PRIu32 " and %" PRIu32 ": %s\n", vertexShader, fragmentShader, log);
-        free(log);
-        exit(1);
-    }
-    
-    return program;
-}
-
 /**
  * Renvoie le contenu du fichier `filename` sous la forme d'une chaîne de caractères.
  * Si `outLen != NULL`, le modifie pour contenir la taille de la chaîne ('\0' exclu).
@@ -132,4 +133,6 @@ static size_t extract_version(const char *shader) {
     
     return 0;
 }
+
+#endif // !__wasm__
 

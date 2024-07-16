@@ -1,14 +1,19 @@
 #ifndef COMMON_LIB_H
 #define COMMON_LIB_H
 
-#include <stdint.h>
+#include "gl.h"
 
-typedef uint32_t GLuint;
+#ifdef __wasm__
+#   define EXPORT(n) __attribute__((export_name(n)))
+#else
+#   define EXPORT(n)
+#endif // !__wasm__
 
 void set_size(int w, int h);
-void init(const char *title);
-void main_loop(float *initial_frame, GLuint renderer, GLuint simulator);
-void uninit(void);
+
+void create_rcx(void);
+void setup(float *initial_frame, GLprogram renderer, GLprogram simulator);
+void main_loop(void);
 
 #endif // COMMON_LIB_H
 

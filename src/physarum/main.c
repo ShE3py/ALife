@@ -1,13 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
 #include "common/lib.h"
 #include "common/shader.h"
 #include "common/config.h"
 
+const char *const TITLE = "Physarum";
+
 // Minimum OpenGL version: 3.0
 
+EXPORT("_initialize")
 int main(void) {
     /*
      * Seed intéressantes :
@@ -18,8 +20,7 @@ int main(void) {
     srand(seed);
     printf("Seed is %u\n", seed);
     
-    set_size(WIDTH, HEIGHT);
-    init("Blob");
+    create_rcx();
     
     float *initial = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
     if(!initial) {
@@ -33,16 +34,15 @@ int main(void) {
         initial[3 * i + 2] = 0;
     }
     
-    GLuint sPassthrough = createShader("src/common/passthrough.vsh", GL_VERTEX_SHADER  , "src/physarum/config.c");
-    GLuint sRenderer    = createShader("src/physarum/renderer.fsh" , GL_FRAGMENT_SHADER, "src/physarum/config.c");
-    GLuint sSimulator   = createShader("src/physarum/simulator.fsh", GL_FRAGMENT_SHADER, "src/physarum/config.c");
+    GLshader sPassthrough = createShader("src/common/passthrough.vsh", GL_VERTEX_SHADER  , "src/physarum/config.c");
+    GLshader sRenderer    = createShader("src/physarum/renderer.fsh" , GL_FRAGMENT_SHADER, "src/physarum/config.c");
+    GLshader sSimulator   = createShader("src/physarum/simulator.fsh", GL_FRAGMENT_SHADER, "src/physarum/config.c");
     
-    GLuint pRenderer = createProgram(sPassthrough, sRenderer);
-    GLuint pSimulator = createProgram(sPassthrough, sSimulator);
+    GLprogram pRenderer = createProgram(sPassthrough, sRenderer);
+    GLprogram pSimulator = createProgram(sPassthrough, sSimulator);
     
-    main_loop(initial, pRenderer, pSimulator);
-    uninit();
-    
+    setup(initial, pRenderer, pSimulator);
+    main_loop();
     return 0;
 }
 

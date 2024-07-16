@@ -7,13 +7,13 @@
 #include "common/shader.h"
 #include "config.h"
 
+const char *const TITLE = "Autopoïèse";
+
 // Minimum OpenGL version: 3.0
 
 static int min(int, int, int, int);
 
 int main(void) {
-    set_size(WIDTH, HEIGHT);
-    init("Autopoïèse");
     srand(time(NULL));
     
     float *initial = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
@@ -49,16 +49,17 @@ int main(void) {
         initial[3 * i + 2] = rand() / (float) RAND_MAX;
     }
     
-    GLuint sPassthrough = createShader("src/common/passthrough.vsh"   , GL_VERTEX_SHADER  , "src/autopoiesis/config.c");
-    GLuint sRenderer    = createShader("src/autopoiesis/renderer.fsh" , GL_FRAGMENT_SHADER, "src/autopoiesis/config.c");
-    GLuint sSimulator   = createShader("src/autopoiesis/simulator.fsh", GL_FRAGMENT_SHADER, "src/autopoiesis/config.c");
+    create_rcx();
     
-    GLuint pRenderer = createProgram(sPassthrough, sRenderer);
-    GLuint pSimulator = createProgram(sPassthrough, sSimulator);
+    GLshader sPassthrough = createShader("src/common/passthrough.vsh"   , GL_VERTEX_SHADER  , "src/autopoiesis/config.c");
+    GLshader sRenderer    = createShader("src/autopoiesis/renderer.fsh" , GL_FRAGMENT_SHADER, "src/autopoiesis/config.c");
+    GLshader sSimulator   = createShader("src/autopoiesis/simulator.fsh", GL_FRAGMENT_SHADER, "src/autopoiesis/config.c");
     
-    main_loop(initial, pRenderer, pSimulator);
-    uninit();
+    GLprogram pRenderer = createProgram(sPassthrough, sRenderer);
+    GLprogram pSimulator = createProgram(sPassthrough, sSimulator);
     
+    setup(initial, pRenderer, pSimulator);
+    main_loop();
     return 0;
 }
 

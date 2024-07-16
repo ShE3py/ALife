@@ -1,12 +1,12 @@
 #include "snap.h"
 
+#ifndef __wasm__
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <inttypes.h>
 
-#include <glad/gl.h>
-
+#include "gl.h"
 #include "common/config.h"
 
 static unsigned char *pixels;
@@ -91,4 +91,7 @@ static void FBO_2_PPM_file(void) {
 void write_frame(void) {
     FBO_2_PPM_file();
 }
+#else
+void write_frame(void) {}
+#endif // !__wasm__
 
