@@ -17,7 +17,7 @@ static uint64_t filter;
 const uint64_t NO_FILTER = UINT64_MAX;
 
 __attribute__((constructor))
-static void ctor() {
+static void ctor(void) {
     pixels = malloc(WIDTH * HEIGHT * 3);
     if(!pixels) {
         perror("malloc");
@@ -40,7 +40,7 @@ static void ctor() {
 }
 
 __attribute__((destructor))
-static void dtor() {
+static void dtor(void) {
     free(pixels);
 }
 
@@ -49,7 +49,7 @@ static bool should_snap(uint64_t frame) {
 }
 
 // https://stackoverflow.com/a/31685135
-static void FBO_2_PPM_file() {
+static void FBO_2_PPM_file(void) {
     // unsigned integer overflow is defined wrapping behavior
     static uint64_t frame = UINT64_MAX;
     if(!should_snap(++frame)) {
@@ -88,7 +88,7 @@ static void FBO_2_PPM_file() {
     }
 }
 
-void write_frame() {
+void write_frame(void) {
     FBO_2_PPM_file();
 }
 

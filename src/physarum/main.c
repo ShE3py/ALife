@@ -8,7 +8,7 @@
 
 // Minimum OpenGL version: 3.0
 
-int main() {
+int main(void) {
     /*
      * Seed intéressantes :
      * seed (widthxheight wrap bounce)

@@ -102,7 +102,7 @@ void main_loop(float *initial_frame, GLuint renderer, GLuint simulator) {
     }
 }
 
-void uninit() {
+void uninit(void) {
     glfwTerminate();
 }
 

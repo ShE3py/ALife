@@ -11,7 +11,7 @@
 
 static int min(int, int, int, int);
 
-int main() {
+int main(void) {
     set_size(WIDTH, HEIGHT);
     init("Autopoïèse");
     srand(time(NULL));
