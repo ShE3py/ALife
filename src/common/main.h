@@ -1,5 +1,5 @@
-#ifndef COMMON_LIB_H
-#define COMMON_LIB_H
+#ifndef COMMON_MAIN_H
+#define COMMON_MAIN_H
 
 #include "gl.h"
 
@@ -9,11 +9,9 @@
 #   define EXPORT(n)
 #endif // !__wasm__
 
-void set_size(int w, int h);
-
 void create_rcx(void);
 void setup(float *initial_frame, GLprogram renderer, GLprogram simulator);
 void main_loop(void);
 
-#endif // COMMON_LIB_H
+#endif // COMMON_MAIN_H
 

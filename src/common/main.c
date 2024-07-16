@@ -1,9 +1,7 @@
-#include "lib.h"
+#include "main.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "gl.h"
 
 #ifndef __wasm__
 #   include "window.h"

@@ -19,7 +19,7 @@ physarum: out/physarum/main.o out/physarum/config.o
 autopoiesis: out/autopoiesis/main.o out/autopoiesis/config.o
 	$(CC) $(TFLAGS) $^ $(LFLAGS) -lm -o $@
 
-out/libcommon.a: out/common/lib.o out/common/shader.o out/common/snap.o
+out/libcommon.a: out/common/main.o out/common/shader.o out/common/snap.o
 	llvm-ar rcs $@ $^
 
 out/libwindow.a: out/glad.o out/common/window.o

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "common/lib.h"
+#include "common/main.h"
 #include "common/shader.h"
 #include "common/config.h"
 

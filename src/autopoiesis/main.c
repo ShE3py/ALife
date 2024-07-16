@@ -3,7 +3,7 @@
 #include <time.h>
 #include <math.h>
 
-#include "common/lib.h"
+#include "common/main.h"
 #include "common/shader.h"
 #include "config.h"
 
