@@ -50,36 +50,36 @@
   (import "libm" "cosf" (func $cosf_hack (type $t13)))
   (func $set_fk (export "set_fk") (type $t14) (param $p0 f32) (param $p1 f32)
     i32.const 0
-    i32.load offset=1240
+    i32.load offset=1232
     local.get $p0
     call $glUniform1f
     i32.const 0
-    i32.load offset=1244
+    i32.load offset=1236
     local.get $p1
     call $glUniform1f)
   (func $set_f (export "set_f") (type $t15) (param $p0 f32)
     i32.const 0
-    i32.load offset=1240
+    i32.load offset=1232
     local.get $p0
     call $glUniform1f)
   (func $set_k (export "set_k") (type $t15) (param $p0 f32)
     i32.const 0
-    i32.load offset=1244
+    i32.load offset=1236
     local.get $p0
     call $glUniform1f)
   (func $set_ru (export "set_ru") (type $t15) (param $p0 f32)
     i32.const 0
-    i32.load offset=1248
+    i32.load offset=1240
     local.get $p0
     call $glUniform1f)
   (func $set_rv (export "set_rv") (type $t15) (param $p0 f32)
     i32.const 0
-    i32.load offset=1252
+    i32.load offset=1244
     local.get $p0
     call $glUniform1f)
   (func $set_dt (export "set_dt") (type $t15) (param $p0 f32)
     i32.const 0
-    i32.load offset=1256
+    i32.load offset=1248
     local.get $p0
     call $glUniform1f)
   (func $set_frame (export "set_frame") (type $t8) (param $p0 i32)
@@ -501,45 +501,45 @@
       local.get $l4
       i32.const 1119
       call $glGetUniformLocation
-      i32.store offset=1240
+      i32.store offset=1232
       i32.const 0
       local.get $l4
       i32.const 1033
       call $glGetUniformLocation
-      i32.store offset=1244
+      i32.store offset=1236
       i32.const 0
       local.get $l4
       i32.const 1027
       call $glGetUniformLocation
-      i32.store offset=1248
+      i32.store offset=1240
       i32.const 0
       local.get $l4
       i32.const 1024
       call $glGetUniformLocation
-      i32.store offset=1252
+      i32.store offset=1244
       i32.const 0
       local.get $l4
       i32.const 1030
       call $glGetUniformLocation
-      i32.store offset=1256
+      i32.store offset=1248
       i32.const 0
-      i32.load offset=1240
+      i32.load offset=1232
       f32.const 0x1.78d4fep-5 (;=0.046;)
       call $glUniform1f
       i32.const 0
-      i32.load offset=1244
+      i32.load offset=1236
       f32.const 0x1.e353f8p-5 (;=0.059;)
       call $glUniform1f
       i32.const 0
-      i32.load offset=1248
+      i32.load offset=1240
       f32.const 0x1p+0 (;=1;)
       call $glUniform1f
       i32.const 0
-      i32.load offset=1252
+      i32.load offset=1244
       f32.const 0x1p-1 (;=0.5;)
       call $glUniform1f
       i32.const 0
-      i32.load offset=1256
+      i32.load offset=1248
       f32.const 0x1p+0 (;=1;)
       call $glUniform1f
       call $main_loop
@@ -853,12 +853,12 @@
     (local $l1 i32)
     block $B0
       i32.const 0
-      i32.load offset=1232
+      i32.load offset=1252
       local.tee $l1
       i32.const 66832
       i32.sub
       i32.const 0
-      i32.load offset=1236
+      i32.load offset=1256
       i32.const 16
       i32.shl
       i32.add
@@ -876,19 +876,19 @@
       call $grow
       i32.const 0
       i32.const 0
-      i32.load offset=1236
+      i32.load offset=1256
       local.get $l1
       i32.add
-      i32.store offset=1236
+      i32.store offset=1256
       i32.const 0
-      i32.load offset=1232
+      i32.load offset=1252
       local.set $l1
     end
     i32.const 0
     local.get $l1
     local.get $p0
     i32.add
-    i32.store offset=1232
+    i32.store offset=1252
     local.get $l1)
   (func $free (type $t8) (param $p0 i32))
   (func $exit (type $t8) (param $p0 i32)
@@ -961,4 +961,4 @@
   (memory $memory (export "memory") 2)
   (global $__stack_pointer (mut i32) (i32.const 66832))
   (data $.rodata (i32.const 1024) "rv\00ru\00dt\00k\00src/common/passthrough.vsh\00src/gray-scott/simulator.fsh\00src/gray-scott/renderer.fsh\00f\00malloc\00src/gray-scott/config.c\00could not link %u and %u: %s\0a\00\00\00\d0\02\00\00\d0\02\00\00\00\00\00\00\00\00\00\00\00\00\80\bf\00\00\80\bf\00\00\80\bf\00\00\80?\00\00\80?\00\00\80\bf\00\00\80?\00\00\80?")
-  (data $.data (i32.const 1232) "\10\05\01\00\01\00\00\00"))
+  (data $.data (i32.const 1232) "\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\10\05\01\00\01\00\00\00"))
