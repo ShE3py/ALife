@@ -2,22 +2,25 @@ CC = clang
 CFLAGS = -Wpedantic -Wall -Wextra -Wno-unused-parameter -g3 -Ofast -Isrc
 LFLAGS = -Lout -lcommon
 
-default: wasm
+default: elf
 
 elf: CFLAGS := $(CFLAGS) -Iglad/include
 elf: LFLAGS := $(LFLAGS) -lglfw -lwindow
-elf: out/libwindow.a physarum autopoiesis
+elf: out/libwindow.a physarum autopoiesis gray-scott
 
 wasm: TFLAGS := --target=wasm32 -nostdlib
 wasm: CFLAGS := $(TFLAGS) $(CFLAGS) -Isrc/libc
 wasm: LFLAGS := -Wl,--no-entry $(LFLAGS) -lc
-wasm: out/libc.a physarum
+wasm: out/libc.a physarum gray-scott
 
 physarum: out/physarum/main.o out/physarum/config.o
 	$(CC) $(TFLAGS) $^ $(LFLAGS) -o $@
 
 autopoiesis: out/autopoiesis/main.o out/autopoiesis/config.o
 	$(CC) $(TFLAGS) $^ $(LFLAGS) -lm -o $@
+
+gray-scott: out/gray-scott/main.o out/gray-scott/config.o
+	$(CC) $(TFLAGS) $^ $(LFLAGS) -o $@
 
 out/libcommon.a: out/common/main.o out/common/shader.o out/common/snap.o
 	llvm-ar rcs $@ $^
@@ -49,6 +52,7 @@ clean:
 	mkdir -p out/libc
 	mkdir -p out/physarum
 	mkdir -p out/autopoiesis
+	mkdir -p out/gray-scott
 
 video:
 	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage autopoiesis.mp4

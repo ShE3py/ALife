@@ -2,6 +2,7 @@
 /out/
 /physarum
 /autopoiesis
+/gray-scott
 
 /frame/*.ppm
 /*.mp4
