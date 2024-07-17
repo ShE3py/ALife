@@ -139,7 +139,7 @@ int main(void) {
     urv = glGetUniformLocation(pSimulator, "rv");
     udt = glGetUniformLocation(pSimulator, "dt");
     
-    set_fk(0.050, 0.063);
+    set_fk(0.046, 0.059);
     set_ru(1.0);
     set_rv(0.5);
     set_dt(1.0);

@@ -25,4 +25,3 @@ tree -P physarum.html -P gray-scott.html -T ALife -H . -o index.html
 cd ..
 
 # git subtree push --prefix generated/ origin gh-pages
-
