@@ -67,10 +67,11 @@ void set_frame(int mode) {
         // line
         case 1:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
+                size_t x = i % WIDTH;
                 size_t y = i / WIDTH;
                 
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = y == (size_t) HEIGHT / 2;
+                frame[3 * i + 1] = (y == (size_t) HEIGHT / 2) && (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6);
                 frame[3 * i + 2] = 0;
             }
             break;
@@ -106,7 +107,7 @@ void set_frame(int mode) {
                 float cosx = 0.67 * cosf(xf);
 
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = fabsf(cosx - yf) <= 0.01;
+                frame[3 * i + 1] = (fabsf(cosx - yf) <= 0.01) && (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6);
                 frame[3 * i + 2] = 0;
             }
             break;
