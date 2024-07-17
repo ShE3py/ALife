@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+
+		<title>Gray–Scott</title>
+	</head>
+
+	<body  style="background-color: black; color: white;">
+		<script type="text/javascript" src="main.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+		<script type="text/javascript" src="gray-scott.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+
+		<canvas id="canvas" width="720" height="720"></canvas>
+
+		<div style="float: right; display: grid; padding: 1em;">
+			<label for="f">Feed Rate</label>
+			<input type="range" id="f" min="0" max="0.1" step="0.001" value="0.055" />
+
+			<label for="k">Kill Rate</label>
+			<input type="range" id="k" min="0" max="0.1" step="0.001" value="0.062" />
+
+			<label for="ru">Liveliness</label>
+			<input type="range" id="ru" min="0" max="1" step="0.01" value="1.00" />
+
+			<label for="rv">Deadness</label>
+			<input type="range" id="rv" min="0" max="1" step="0.01" value="0.50" />
+
+			<label for="dt">&Delta;t</label>
+			<input type="range" id="dt" min="0" max="1" step="0.01" value="1" />
+
+			<label for="type">Classification</label>
+			<select id="type">
+				<option value="0">Alpha</option>
+				<option value="1">Beta</option>
+				<option value="2">Gamma</option>
+				<option value="3">Delta</option>
+				<option value="4">Epsilon</option>
+				<option value="5">Zeta</option>
+				<option value="6">Eta</option>
+				<option value="7">Theta</option>
+				<option value="8">Iota</option>
+				<option value="9" selected>Kappa</option>
+				<option value="10">Lambda</option>
+				<option value="11">Mu</option>
+				<option value="12">Nu</option>
+				<option value="13">Xi</option>
+				<option value="14">Pi</option>
+				<option value="15">Rho</option>
+				<option value="16">Sigma</option>
+			</select>
+
+			<label for="init">Initial Configuration</label>
+			<select id="init">
+				<option value="0" selected>Random</option>
+				<option value="2">Circle</option>
+				<option value="3">Sinusoid</option>
+				<option value="1">Line</option>
+			</select>
+		</div>
+	</body>
+</html>
