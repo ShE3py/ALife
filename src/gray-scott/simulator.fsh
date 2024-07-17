@@ -3,8 +3,21 @@
 out vec3 color;
 
 uniform sampler2D world;
-uniform float f;
-uniform float k;
+
+/**
+ * Feed/kill rates.
+ */
+uniform float f, k;
+
+/**
+ * The diffusion rate of the chemical species.
+ */
+uniform float ru, rv;
+
+/**
+ * The discretized time step.
+ */
+uniform float dt;
 
 // Moore neighborhood
 vec2 laplacian(ivec2 coord) {
@@ -35,8 +48,8 @@ void main() {
     float v = data.g;
     
     vec2 laplace = laplacian(coord);
-    float U = u + ((DIFFUSION_RATE_U * laplace.r) - (u * v * v) + (     f  * (1.0 - u))) * DELTA_T;
-    float V = v + ((DIFFUSION_RATE_V * laplace.g) + (u * v * v) - ((k + f) *        v )) * DELTA_T;
+    float U = u + ((ru * laplace.r) - (u * v * v) + (     f  * (1.0 - u))) * dt;
+    float V = v + ((rv * laplace.g) + (u * v * v) - ((k + f) *        v )) * dt;
     
     color = vec3(U, V, 0);
 }

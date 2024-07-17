@@ -12,12 +12,21 @@
 
 		<canvas id="canvas" width="720" height="720"></canvas>
 
-		<div style="float: right;">
+		<div style="float: right; display: grid; padding: 1em;">
 			<label for="f">Feed Rate</label>
 			<input type="range" id="f" min="0" max="0.1" step="0.001" value="0.055" />
 
-			<label for="k">Decay Rate</label>
+			<label for="k">Kill Rate</label>
 			<input type="range" id="k" min="0" max="0.1" step="0.001" value="0.062" />
+
+			<label for="ru">Liveliness</label>
+			<input type="range" id="ru" min="0" max="1" step="0.01" value="1.00" />
+
+			<label for="rv">Deadness</label>
+			<input type="range" id="rv" min="0" max="1" step="0.01" value="0.50" />
+
+			<label for="dt">&Delta;t</label>
+			<input type="range" id="dt" min="0" max="1" step="0.01" value="1" />
 
 			<label for="type">Classification</label>
 			<select id="type">
@@ -30,7 +39,7 @@
 				<option value="6">Eta</option>
 				<option value="7">Theta</option>
 				<option value="8">Iota</option>
-				<option value="9">Kappa</option>
+				<option value="9" selected>Kappa</option>
 				<option value="10">Lambda</option>
 				<option value="11">Mu</option>
 				<option value="12">Nu</option>
