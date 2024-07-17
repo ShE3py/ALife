@@ -1,10 +1,9 @@
 
 // https://stackoverflow.com/a/47880734
-// https://github.com/GoogleChromeLabs/wasm-feature-detect
 const supported = (() => {
     try {
         if(typeof WebAssembly === "object" && typeof WebAssembly.instantiateStreaming === "function") {
-            const module = new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 4, 1, 96 , 0, 0, 3, 2, 1, 0, 10, 8, 1, 6, 0, 65, 0, 192, 26, 11]));
+            const module = new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0]));
             if(module instanceof WebAssembly.Module) {
                 return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
             }
@@ -25,6 +24,7 @@ if(supported) {
     const framebuffers = [];
     const vaos = [];
     const vbos = [];
+    const uniforms = [];
 
     // noinspection JSUnusedGlobalSymbols
     const imports = {
@@ -40,6 +40,9 @@ if(supported) {
                     console.error(msg);
                 }
             }
+        },
+        libm: {
+            cosf: Math.cos,
         },
         common: {
             createShader: (filenamePtr, shaderType, configFilenamePtr) => {
@@ -165,6 +168,13 @@ if(supported) {
             glDrawArrays: cx.drawArrays.bind(cx),
             glCopyTexSubImage2D: cx.copyTexSubImage2D.bind(cx),
             glPixelStorei: cx.pixelStorei.bind(cx),
+            glGetUniformLocation: (program, name) => {
+                const uniform = cx.getUniformLocation(programs[program - 1], readCstr(name));
+                uniforms.push(uniform);
+
+                return uniforms.length;
+            },
+            glUniform1f: (location, val) => cx.uniform1f(uniforms[location - 1], val),
         }
     };
 
@@ -188,7 +198,7 @@ if(supported) {
     );
 }
 else {
-    document.document.innerHTML = "&#x2718; Outdated web browser; <a href=\"https://webassembly.org/roadmap/\" target=\"_blank\">WebAssembly with sign-extension operators required</a>."
+    document.document.innerHTML = "&#x2718; Outdated web browser; <a href=\"https://webassembly.org/roadmap/\" target=\"_blank\">WebAssembly required</a>."
 }
 
 function writeI32(ptr, v) {

@@ -31,8 +31,8 @@
   (import "common" "glVertexAttribPointer" (func $glVertexAttribPointer (type $t8)))
   (import "common" "glEnableVertexAttribArray" (func $glEnableVertexAttribArray (type $t6)))
   (import "common" "glClearColor" (func $glClearColor (type $t9)))
-  (import "common" "glClear" (func $glClear (type $t6)))
   (import "common" "glUseProgram" (func $glUseProgram (type $t6)))
+  (import "common" "glClear" (func $glClear (type $t6)))
   (import "common" "glDrawArrays" (func $glDrawArrays (type $t3)))
   (import "common" "glCopyTexSubImage2D" (func $glCopyTexSubImage2D (type $t10)))
   (import "common" "glCreateProgram" (func $glCreateProgram (type $t0)))
@@ -170,11 +170,14 @@
     local.tee $l3
     global.set $__stack_pointer
     i32.const 0
-    local.get $p2
+    local.get $p1
     i32.store offset=1236
     i32.const 0
-    local.get $p1
+    local.get $p0
     i32.store offset=1232
+    i32.const 0
+    local.get $p2
+    i32.store offset=1240
     i32.const 1
     local.get $l3
     i32.const 60
@@ -202,7 +205,7 @@
     i32.const 0
     i32.const 6407
     i32.const 5126
-    local.get $p0
+    i32.const 0
     call $glTexImage2D
     i32.const 1
     local.get $l3
@@ -231,16 +234,15 @@
     i32.const 0
     i32.const 6407
     i32.const 5126
-    local.get $p0
+    i32.const 0
+    i32.load offset=1232
     call $glTexImage2D
-    local.get $p0
-    call $free
     i32.const 1
-    i32.const 1240
+    i32.const 1244
     call $glGenFramebuffers
     i32.const 36160
     i32.const 0
-    i32.load offset=1240
+    i32.load offset=1244
     call $glBindFramebuffer
     i32.const 36160
     i32.const 36064
@@ -315,20 +317,34 @@
     f32.const 0x0p+0 (;=0;)
     f32.const 0x1p+0 (;=1;)
     call $glClearColor
+    i32.const 0
+    i32.load offset=1240
+    call $glUseProgram
     local.get $l3
     i32.const 64
     i32.add
     global.set $__stack_pointer)
+  (func $reset_frame (export "reset_frame") (type $t11)
+    i32.const 3553
+    i32.const 0
+    i32.const 6407
+    i32.const 0
+    i32.load offset=1224
+    i32.const 0
+    i32.load offset=1228
+    i32.const 0
+    i32.const 6407
+    i32.const 5126
+    i32.const 0
+    i32.load offset=1232
+    call $glTexImage2D)
   (func $next_frame (export "next_frame") (type $t11)
     i32.const 16384
     call $glClear
     i32.const 36160
     i32.const 0
-    i32.load offset=1240
+    i32.load offset=1244
     call $glBindFramebuffer
-    i32.const 0
-    i32.load offset=1236
-    call $glUseProgram
     i32.const 5
     i32.const 0
     i32.const 4
@@ -348,13 +364,16 @@
     i32.const 0
     call $glBindFramebuffer
     i32.const 0
-    i32.load offset=1232
+    i32.load offset=1236
     call $glUseProgram
     i32.const 5
     i32.const 0
     i32.const 4
     call $glDrawArrays
-    call $write_frame)
+    call $write_frame
+    i32.const 0
+    i32.load offset=1240
+    call $glUseProgram)
   (func $main_loop (type $t11))
   (func $createProgram (type $t12) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32)
