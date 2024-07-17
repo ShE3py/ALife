@@ -67,6 +67,7 @@ GLuint createShader(const char *filename, GLenum shaderType, const char *configF
     
     free(config);
     free(src);
+    free(version);
     
     GLint status;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);

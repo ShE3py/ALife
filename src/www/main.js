@@ -1,10 +1,9 @@
 
 // https://stackoverflow.com/a/47880734
-// https://github.com/GoogleChromeLabs/wasm-feature-detect
 const supported = (() => {
     try {
         if(typeof WebAssembly === "object" && typeof WebAssembly.instantiateStreaming === "function") {
-            const module = new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0, 1, 4, 1, 96 , 0, 0, 3, 2, 1, 0, 10, 8, 1, 6, 0, 65, 0, 192, 26, 11]));
+            const module = new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0]));
             if(module instanceof WebAssembly.Module) {
                 return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
             }
@@ -199,7 +198,7 @@ if(supported) {
     );
 }
 else {
-    document.document.innerHTML = "&#x2718; Outdated web browser; <a href=\"https://webassembly.org/roadmap/\" target=\"_blank\">WebAssembly with sign-extension operators required</a>."
+    document.document.innerHTML = "&#x2718; Outdated web browser; <a href=\"https://webassembly.org/roadmap/\" target=\"_blank\">WebAssembly required</a>."
 }
 
 function writeI32(ptr, v) {

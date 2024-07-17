@@ -117,7 +117,7 @@ EXPORT("_initialize")
 int main(void) {
     create_rcx();
     
-    GLshader sPassthrough = createShader("src/common/passthrough.vsh", GL_VERTEX_SHADER  , "src/gray-scott/config.c");
+    GLshader sPassthrough = createShader("src/common/passthrough.vsh"  , GL_VERTEX_SHADER  , "src/gray-scott/config.c");
     GLshader sRenderer    = createShader("src/gray-scott/renderer.fsh" , GL_FRAGMENT_SHADER, "src/gray-scott/config.c");
     GLshader sSimulator   = createShader("src/gray-scott/simulator.fsh", GL_FRAGMENT_SHADER, "src/gray-scott/config.c");
     
