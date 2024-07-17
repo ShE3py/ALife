@@ -9,3 +9,8 @@ const int WIDTH = 720;
  */
 const int HEIGHT = 720;
 
+/**
+ * Est-ce que la texture est un tore ?
+ */
+const bool TEX_WRAP = false;
+

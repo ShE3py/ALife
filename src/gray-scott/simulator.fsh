@@ -30,7 +30,11 @@ vec2 laplacian(ivec2 coord) {
     
     for(int dx = -1; dx <= 1; ++dx) {
         for(int dy = -1; dy <= 1; ++dy) {
-            ivec2 koord = (coord + ivec2(dx, dy) + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            ivec2 koord = coord + ivec2(dx, dy);
+            if(TEX_WRAP) {
+                koord = (koord + ivec2(WIDTH, HEIGHT)) % ivec2(WIDTH, HEIGHT);
+            }
+            
             sum += texelFetch(world, koord, 0).rg * CONVOLUTION[dx + 1 + (dy + 1) * 3];
         }
     }
