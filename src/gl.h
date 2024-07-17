@@ -80,3 +80,5 @@ IMPORT("glUniform1f") void glUniform1f(GLint, GLfloat);
 typedef GLuint GLprogram;
 typedef GLuint GLshader;
 
+#define INVALID_UNIFORM 2147483647
+

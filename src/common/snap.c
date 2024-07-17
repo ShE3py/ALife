@@ -9,12 +9,12 @@
 #include "gl.h"
 #include "common/config.h"
 
-static unsigned char *pixels;
-
-static bool enabled;
-static uint64_t filter;
-
 const uint64_t NO_FILTER = UINT64_MAX;
+
+static unsigned char *pixels = NULL;
+
+static bool enabled = false;
+static uint64_t filter = NO_FILTER;
 
 __attribute__((constructor))
 static void ctor(void) {

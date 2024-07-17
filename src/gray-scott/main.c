@@ -11,7 +11,7 @@ const char *const TITLE = "Gray-Scott";
 // Minimum OpenGL version: 3.0
 
 // CONFIG UNIFORMS //
-static GLint uf, uk;
+static GLint uf = INVALID_UNIFORM, uk = INVALID_UNIFORM;
 
 EXPORT("set_fk")
 void set_fk(float vf, float vk) {
@@ -29,7 +29,7 @@ void set_k(float vk) {
     glUniform1f(uk, vk);
 }
 
-static GLint uru, urv;
+static GLint uru = INVALID_UNIFORM, urv = INVALID_UNIFORM;
 
 EXPORT("set_ru")
 void set_ru(float vru) {
@@ -41,7 +41,7 @@ void set_rv(float vrv) {
     glUniform1f(urv, vrv);
 }
 
-static GLint udt;
+static GLint udt = INVALID_UNIFORM;
 
 EXPORT("set_dt")
 void set_dt(float vdt) {
