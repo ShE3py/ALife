@@ -21,7 +21,7 @@ int main(void) {
     
     for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
         initial[3 * i    ] = 1;
-        initial[3 * i + 1] = rand() / (float) RAND_MAX > 0.999;
+        initial[3 * i + 1] = rand() / (float) RAND_MAX > 0.99;
         initial[3 * i + 2] = 0;
     }
     

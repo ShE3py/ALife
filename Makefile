@@ -55,5 +55,5 @@ clean:
 	mkdir -p out/gray-scott
 
 video:
-	ffmpeg -framerate 60 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage autopoiesis.mp4
+	ffmpeg -framerate 240 -pattern_type glob -i 'frame/*.ppm' -c:v libx264 -crf 20 -preset veryslow -tune stillimage gray-scott.mp4
 
