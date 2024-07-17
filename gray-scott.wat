@@ -38,7 +38,6 @@
   (import "common" "glEnableVertexAttribArray" (func $glEnableVertexAttribArray (type $t8)))
   (import "common" "glClearColor" (func $glClearColor (type $t11)))
   (import "common" "glUseProgram" (func $glUseProgram (type $t8)))
-  (import "common" "glClear" (func $glClear (type $t8)))
   (import "common" "glDrawArrays" (func $glDrawArrays (type $t5)))
   (import "common" "glCopyTexSubImage2D" (func $glCopyTexSubImage2D (type $t12)))
   (import "common" "glCreateProgram" (func $glCreateProgram (type $t1)))
@@ -738,8 +737,6 @@
     i32.load offset=1272
     call $glTexImage2D)
   (func $next_frame (export "next_frame") (type $t16)
-    i32.const 16384
-    call $glClear
     i32.const 36160
     i32.const 0
     i32.load offset=1284
