@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wpedantic -Wall -Wextra -Wno-unused-parameter -g -Isrc
+CFLAGS = -Wpedantic -Wall -Wextra -Wno-unused-parameter -g3 -Ofast -Isrc
 LFLAGS = -Lout -lcommon
 
 default: wasm
@@ -15,7 +15,7 @@ wasm: out/libc.a physarum
 
 physarum: out/physarum/main.o out/physarum/config.o
 	$(CC) $(TFLAGS) $^ $(LFLAGS) -o $@
-	
+
 autopoiesis: out/autopoiesis/main.o out/autopoiesis/config.o
 	$(CC) $(TFLAGS) $^ $(LFLAGS) -lm -o $@
 

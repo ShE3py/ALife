@@ -6,3 +6,9 @@
 /frame/*.ppm
 /*.mp4
 
+/src/www/*.vsh
+/src/www/*.fsh
+/src/www/*-config.c
+/src/www/*.wasm
+/src/www/*.wat
+

@@ -69,6 +69,7 @@ void setup(float *initial_frame, GLprogram r, GLprogram s) {
     glClearColor(0, 0, 0, 1);
 }
 
+EXPORT("next_frame")
 void next_frame(void) {
     glClear(GL_COLOR_BUFFER_BIT);
     
