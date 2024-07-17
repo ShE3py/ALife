@@ -14,4 +14,6 @@ cp src/physarum/config.c src/www/physarum-config.c
 cp src/physarum/simulator.fsh src/www/physarum-simulator.fsh
 cp src/physarum/renderer.fsh src/www/physarum-renderer.fsh
 
-# git subtree push --prefix src/www/ origin gh-pages
+tree -P physarum.html -T ALife -H . -o index.html
+
+git subtree push --prefix src/www/ origin gh-pages

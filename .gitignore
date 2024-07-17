@@ -11,4 +11,4 @@
 /src/www/*-config.c
 /src/www/*.wasm
 /src/www/*.wat
-
+/src/www/index.html
