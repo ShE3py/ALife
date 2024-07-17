@@ -13,11 +13,32 @@
 		<canvas id="canvas" width="720" height="720"></canvas>
 
 		<div style="float: right;">
-			<input type="range" id="f" min="0" max="1" step="0.01" />
 			<label for="f">Feed Rate</label>
+			<input type="range" id="f" min="0" max="0.1" step="0.001" value="0.055" />
 
-			<input type="range" id="k" min="0" max="1" step="0.01" />
 			<label for="k">Decay Rate</label>
+			<input type="range" id="k" min="0" max="0.1" step="0.001" value="0.062" />
+
+			<label for="type">Classification</label>
+			<select id="type">
+				<option value="0">Alpha</option>
+				<option value="1">Beta</option>
+				<option value="2">Gamma</option>
+				<option value="3">Delta</option>
+				<option value="4">Epsilon</option>
+				<option value="5">Zeta</option>
+				<option value="6">Eta</option>
+				<option value="7">Theta</option>
+				<option value="8">Iota</option>
+				<option value="9">Kappa</option>
+				<option value="10">Lambda</option>
+				<option value="11">Mu</option>
+				<option value="12">Nu</option>
+				<option value="13">Xi</option>
+				<option value="14">Pi</option>
+				<option value="15">Rho</option>
+				<option value="16">Sigma</option>
+			</select>
 		</div>
 	</body>
 </html>

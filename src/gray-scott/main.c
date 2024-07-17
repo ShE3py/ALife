@@ -11,14 +11,20 @@ const char *const TITLE = "Gray-Scott";
 
 static GLint f, k;
 
+EXPORT("set_fk")
+void set_fk(float vf, float vk) {
+    glUniform1f(f, vf);
+    glUniform1f(k, vk);
+}
+
 EXPORT("set_f")
-void set_f(float val) {
-    glUniform1f(f, val);
+void set_f(float vf) {
+    glUniform1f(f, vf);
 }
 
 EXPORT("set_k")
-void set_k(float val) {
-    glUniform1f(k, val);
+void set_k(float vk) {
+    glUniform1f(k, vk);
 }
 
 EXPORT("_initialize")
@@ -49,8 +55,7 @@ int main(void) {
     f = glGetUniformLocation(pSimulator, "f");
     k = glGetUniformLocation(pSimulator, "k");
     
-    set_f(FEED_RATE_F);
-    set_k(DECAY_RATE_K);
+    set_fk(FEED_RATE_F, DECAY_RATE_K);
     
     main_loop();
     return 0;
