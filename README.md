@@ -2,7 +2,7 @@
 
 Les différents programmes ont étés écrit en C et en GLSL (OpenGL 3.0). L'analyse des automates est disponible dans `doc/`.
 
-Une version en ligne du blob est disponible à l'adresse <https://she3py.github.io/ALife/www/physarum.html>.
+Une version en ligne du blob est disponible à l'adresse <https://she3py.github.io/ALife/physarum.html>.
 
 ## Compilation
 
