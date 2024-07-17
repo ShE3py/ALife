@@ -73,8 +73,6 @@ void setup(float *f, GLprogram r, GLprogram s) {
 
 EXPORT("next_frame")
 void next_frame(void) {
-    glClear(GL_COLOR_BUFFER_BIT);
-    
     glBindFramebuffer(GL_FRAMEBUFFER, dstBuf);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     

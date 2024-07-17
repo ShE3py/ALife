@@ -11,10 +11,11 @@
 
 void create_rcx(void);
 void setup(float *frame, GLprogram renderer, GLprogram simulator);
-void main_loop(void);
 
 EXPORT("reset_frame")
 void reset_frame(void);
+
+void main_loop(void);
 
 #endif // COMMON_MAIN_H
 
