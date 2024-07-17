@@ -10,9 +10,9 @@
 
 #include "snap.h"
 
-static float* initial_frame;
-static GLuint renderer, simulator, dstBuf;
-static int width, height;
+static float* frame = NULL;
+static GLuint renderer = 0, simulator = 0, dstBuf = 0;
+static int width = 0, height = 0;
 
 void create_rcx(void) {
     extern int WIDTH, HEIGHT;
@@ -24,11 +24,8 @@ void create_rcx(void) {
     #endif // !__wasm__
 }
 
-EXPORT("reset_frame")
-void reset_frame(void);
-
 void setup(float *f, GLprogram r, GLprogram s) {
-    initial_frame = f;
+    frame = f;
     renderer = r;
     simulator = s;
     
@@ -37,7 +34,7 @@ void setup(float *f, GLprogram r, GLprogram s) {
     glBindTexture(GL_TEXTURE_2D, dstTex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, NULL);
     
     GLuint srcTex;
     glGenTextures(1, &srcTex);
@@ -93,7 +90,7 @@ void next_frame(void) {
 
 void reset_frame(void) {
     // Precondition: `srcTex` is bound
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &frame[0]);
 }
 
 #ifndef __wasm__
@@ -106,7 +103,7 @@ void main_loop(void) {
     }
     
     glfwTerminate();
-    free(initial_frame);
+    free(frame);
 }
 #else
 void main_loop(void) {}

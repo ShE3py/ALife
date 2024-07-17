@@ -42,6 +42,9 @@ if(supported) {
                 }
             }
         },
+        libm: {
+            cosf: Math.cos,
+        },
         common: {
             createShader: (filenamePtr, shaderType, configFilenamePtr) => {
                 const shader = cx.createShader(shaderType);

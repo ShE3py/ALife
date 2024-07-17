@@ -24,5 +24,8 @@ __attribute__((import_name("rand"), import_module("libc")))
 int rand(void);
 void srand(unsigned int seed);
 
+// Math
+int abs(int j);
+
 #endif // LIBC_STDLIB_H
 

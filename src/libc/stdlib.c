@@ -29,3 +29,7 @@ _Noreturn void exit(int status) {
 
 void srand(unsigned int seed) {}
 
+int abs(int j) {
+    return j >= 0 ? j : -j;
+}
+

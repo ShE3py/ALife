@@ -10,8 +10,11 @@
 #endif // !__wasm__
 
 void create_rcx(void);
-void setup(float *initial_frame, GLprogram renderer, GLprogram simulator);
+void setup(float *frame, GLprogram renderer, GLprogram simulator);
 void main_loop(void);
+
+EXPORT("reset_frame")
+void reset_frame(void);
 
 #endif // COMMON_MAIN_H
 

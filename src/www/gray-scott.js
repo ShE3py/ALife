@@ -55,3 +55,8 @@ document.getElementById("type").onchange = function () {
     wasm.exports.set_fk(f, k);
     wasm.exports.reset_frame();
 }
+
+document.getElementById("init").onchange = function () {
+    wasm.exports.set_frame(this.value);
+    wasm.exports.reset_frame();
+}
