@@ -551,11 +551,11 @@
       i32.store offset=1256
       i32.const 0
       i32.load offset=1240
-      f32.const 0x1.99999ap-5 (;=0.05;)
+      f32.const 0x1.78d4fep-5 (;=0.046;)
       call $glUniform1f
       i32.const 0
       i32.load offset=1244
-      f32.const 0x1.020c4ap-4 (;=0.063;)
+      f32.const 0x1.e353f8p-5 (;=0.059;)
       call $glUniform1f
       i32.const 0
       i32.load offset=1248

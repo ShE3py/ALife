@@ -1,6 +1,8 @@
 
-const f_slider = document.getElementById("f");
-const k_slider = document.getElementById("k");
+const f_slider  = document.getElementById("f");
+const k_slider  = document.getElementById("k");
+const ru_slider = document.getElementById("ru");
+const rv_slider = document.getElementById("rv");
 
 f_slider.onchange = function () {
     wasm.exports.set_f(this.value);
@@ -12,12 +14,12 @@ k_slider.onchange = function () {
     wasm.exports.reset_frame();
 };
 
-document.getElementById("ru").onchange = function () {
+ru_slider.onchange = function () {
     wasm.exports.set_ru(this.value);
     wasm.exports.reset_frame();
 };
 
-document.getElementById("rv").onchange = function () {
+rv_slider.onchange = function () {
     wasm.exports.set_rv(this.value);
     wasm.exports.reset_frame();
 };
@@ -27,7 +29,7 @@ document.getElementById("dt").onchange = function () {
     wasm.exports.reset_frame();
 };
 
-document.getElementById("type").onchange = function () {
+document.getElementById("preset").onchange = function () {
     const FK = [
         [0.010, 0.047], // Alpha
         [0.014, 0.039], // Beta
@@ -53,6 +55,13 @@ document.getElementById("type").onchange = function () {
     k_slider.value = k;
 
     wasm.exports.set_fk(f, k);
+
+    // Also reset ru & rv
+    ru_slider.value = 1.0;
+    rv_slider.value = 0.5;
+    wasm.exports.set_ru(1.0);
+    wasm.exports.set_rv(0.5);
+
     wasm.exports.reset_frame();
 }
 
