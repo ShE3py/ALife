@@ -71,6 +71,8 @@ IMPORT("glUseProgram") void glUseProgram(GLuint);
 IMPORT("glDrawArrays") void glDrawArrays(GLenum, GLint, GLsizei);
 IMPORT("glCopyTexSubImage2D") void glCopyTexSubImage2D(GLenum, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei);
 IMPORT("glPixelStorei") void glPixelStorei(GLenum, GLint);
+IMPORT("glGetUniformLocation") GLint glGetUniformLocation(GLuint, const GLchar*);
+IMPORT("glUniform1f") void glUniform1f(GLint, GLfloat);
 
 #   endif // GL_H
 #endif // !__wasm__

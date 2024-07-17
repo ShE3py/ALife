@@ -25,6 +25,7 @@ if(supported) {
     const framebuffers = [];
     const vaos = [];
     const vbos = [];
+    const uniforms = [];
 
     // noinspection JSUnusedGlobalSymbols
     const imports = {
@@ -165,6 +166,13 @@ if(supported) {
             glDrawArrays: cx.drawArrays.bind(cx),
             glCopyTexSubImage2D: cx.copyTexSubImage2D.bind(cx),
             glPixelStorei: cx.pixelStorei.bind(cx),
+            glGetUniformLocation: (program, name) => {
+                const uniform = cx.getUniformLocation(programs[program - 1], readCstr(name));
+                uniforms.push(uniform);
+
+                return uniforms.length;
+            },
+            glUniform1f: (location, val) => cx.uniform1f(uniforms[location - 1], val),
         }
     };
 

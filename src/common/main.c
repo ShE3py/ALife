@@ -10,7 +10,8 @@
 
 #include "snap.h"
 
-static GLuint renderer, simulator, frameBuf;
+static float* initial_frame;
+static GLuint renderer, simulator, dstBuf;
 static int width, height;
 
 void create_rcx(void) {
@@ -23,28 +24,31 @@ void create_rcx(void) {
     #endif // !__wasm__
 }
 
-void setup(float *initial_frame, GLprogram r, GLprogram s) {
+EXPORT("reset_frame")
+void reset_frame(void);
+
+void setup(float *f, GLprogram r, GLprogram s) {
+    initial_frame = f;
     renderer = r;
     simulator = s;
     
-    GLuint frameTex;
-    glGenTextures(1, &frameTex);
-    glBindTexture(GL_TEXTURE_2D, frameTex);
+    GLuint dstTex;
+    glGenTextures(1, &dstTex);
+    glBindTexture(GL_TEXTURE_2D, dstTex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
     
-    GLuint worldTex;
-    glGenTextures(1, &worldTex);
-    glBindTexture(GL_TEXTURE_2D, worldTex);
+    GLuint srcTex;
+    glGenTextures(1, &srcTex);
+    glBindTexture(GL_TEXTURE_2D, srcTex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
-    free(initial_frame);
+    reset_frame();
     
-    glGenFramebuffers(1, &frameBuf);
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, frameTex, 0);
+    glGenFramebuffers(1, &dstBuf);
+    glBindFramebuffer(GL_FRAMEBUFFER, dstBuf);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dstTex, 0);
     const GLenum buf = GL_COLOR_ATTACHMENT0;
     glDrawBuffers(1, &buf);
     
@@ -67,14 +71,14 @@ void setup(float *initial_frame, GLprogram r, GLprogram s) {
     glEnableVertexAttribArray(0);
     
     glClearColor(0, 0, 0, 1);
+    glUseProgram(simulator);
 }
 
 EXPORT("next_frame")
 void next_frame(void) {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glBindFramebuffer(GL_FRAMEBUFFER, frameBuf);
-    glUseProgram(simulator);
+    glBindFramebuffer(GL_FRAMEBUFFER, dstBuf);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
@@ -84,6 +88,12 @@ void next_frame(void) {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     write_frame();
+    glUseProgram(simulator);
+}
+
+void reset_frame(void) {
+    // Precondition: `srcTex` is bound
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, &initial_frame[0]);
 }
 
 #ifndef __wasm__
@@ -96,6 +106,7 @@ void main_loop(void) {
     }
     
     glfwTerminate();
+    free(initial_frame);
 }
 #else
 void main_loop(void) {}

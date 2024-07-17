@@ -3,11 +3,23 @@
 
 #include "common/main.h"
 #include "common/shader.h"
-#include "common/config.h"
+#include "config.h"
 
 const char *const TITLE = "Gray-Scott";
 
 // Minimum OpenGL version: 3.0
+
+static GLint f, k;
+
+EXPORT("set_f")
+void set_f(float val) {
+    glUniform1f(f, val);
+}
+
+EXPORT("set_k")
+void set_k(float val) {
+    glUniform1f(k, val);
+}
 
 EXPORT("_initialize")
 int main(void) {
@@ -33,6 +45,13 @@ int main(void) {
     GLprogram pSimulator = createProgram(sPassthrough, sSimulator);
     
     setup(initial, pRenderer, pSimulator);
+    
+    f = glGetUniformLocation(pSimulator, "f");
+    k = glGetUniformLocation(pSimulator, "k");
+    
+    set_f(FEED_RATE_F);
+    set_k(DECAY_RATE_K);
+    
     main_loop();
     return 0;
 }
