@@ -33,8 +33,8 @@ void main() {
     float v = data.g;
     
     vec2 laplace = laplacian(coord);
-    float U = u + ((DIFFUSION_RATE_U * laplace.r) - (u * v * v) + (                FEED_RATE_F  * (1 - u))) * DELTA_T;
-    float V = v + ((DIFFUSION_RATE_V * laplace.g) + (u * v * v) - ((DECAY_RATE_K + FEED_RATE_F) *      v )) * DELTA_T;
+    float U = u + ((DIFFUSION_RATE_U * laplace.r) - (u * v * v) + (                FEED_RATE_F  * (1.0 - u))) * DELTA_T;
+    float V = v + ((DIFFUSION_RATE_V * laplace.g) + (u * v * v) - ((DECAY_RATE_K + FEED_RATE_F) *        v )) * DELTA_T;
     
     color = vec3(U, V, 0);
 }

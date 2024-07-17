@@ -12,7 +12,7 @@ const int HEIGHT = 720;
 /**
  * The diffusion rate of the U chemical species.
  */
-const float DIFFUSION_RATE_U = 1;
+const float DIFFUSION_RATE_U = 1.0;
 
 /**
  * The diffusion rate of the V chemical species.
@@ -32,5 +32,5 @@ const float DECAY_RATE_K = 0.062;
 /**
  * The discretized time step.
  */
-const float DELTA_T = 1;
+const float DELTA_T = 1.0;
 
