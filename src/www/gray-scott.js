@@ -27,6 +27,7 @@ rv_slider.onchange = function () {
 
 f_slider.onchange = function () {
     wasm.exports.set_f(this.value);
+    wasm.exports.reset_frame();
 };
 
 k_slider.onchange = function () {
