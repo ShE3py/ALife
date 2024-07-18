@@ -71,8 +71,9 @@ static float *frame = NULL;
 
 EXPORT("set_frame")
 void set_frame(int mode) {
+    // TODO: grid
     switch(mode) {
-        // random
+        // Random
         case 0:
         default:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
@@ -82,20 +83,35 @@ void set_frame(int mode) {
             }
             break;
         
-        // line
+        // Square (Filled)
         case 1:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 size_t x = i % WIDTH;
                 size_t y = i / WIDTH;
                 
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = (y == (size_t) HEIGHT / 2) && (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6);
+                frame[3 * i + 1] = (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6) && (y >= (size_t) HEIGHT / 6) && (y <= (5 * (size_t) HEIGHT) / 6);
                 frame[3 * i + 2] = 0;
             }
             break;
         
-        // circle
+        // Square (Outline)
         case 2:
+            for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
+                size_t x = i % WIDTH;
+                size_t y = i / WIDTH;
+                
+                int horizontal = (x >= (size_t) WIDTH  / 6 - 5) && (x <= (5 * (size_t) WIDTH ) / 6 + 5) && (abs(abs((HEIGHT / 2) - (int) y) - (HEIGHT / 3)) <= 5);
+                int vertical   = (y >= (size_t) HEIGHT / 6 - 5) && (y <= (5 * (size_t) HEIGHT) / 6 + 5) && (abs(abs((WIDTH  / 2) - (int) x) - (WIDTH  / 3)) <= 5);
+                
+                frame[3 * i    ] = 1;
+                frame[3 * i + 1] = horizontal || vertical;
+                frame[3 * i + 2] = 0;
+            }
+            break;
+        
+        // Circle (Filled)
+        case 3:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 size_t x = i % WIDTH;
                 size_t y = i / WIDTH;
@@ -108,13 +124,32 @@ void set_frame(int mode) {
                 const int r2 = r * r;
 
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = abs(d2 - r2) <= r;
+                frame[3 * i + 1] = d2 <= r2;
                 frame[3 * i + 2] = 0;
             }
             break;
         
-        // sinus
-        case 3:
+        // Circle (Outline)
+        case 4:
+            for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
+                size_t x = i % WIDTH;
+                size_t y = i / WIDTH;
+                
+                int dx = (WIDTH / 2) - x;
+                int dy = (HEIGHT / 2) - y;
+                int d2 = (dx * dx) + (dy * dy);
+                
+                const int r = WIDTH / 3;
+                const int r2 = r * r;
+
+                frame[3 * i    ] = 1;
+                frame[3 * i + 1] = abs(d2 - r2) <= r * 5;
+                frame[3 * i + 2] = 0;
+            }
+            break;
+        
+        // Sinusoid
+        case 5:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 size_t x = i % WIDTH;
                 size_t y = i / WIDTH;
@@ -130,18 +165,16 @@ void set_frame(int mode) {
             }
             break;
         
-        // square
-        case 4:
+        // Line
+        case 6:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 size_t x = i % WIDTH;
                 size_t y = i / WIDTH;
                 
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6) && (y >= (size_t) HEIGHT / 6) && (y <= (5 * (size_t) HEIGHT) / 6);
+                frame[3 * i + 1] = (y == (size_t) HEIGHT / 2) && (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6);
                 frame[3 * i + 2] = 0;
             }
-            break;
-            
             break;
     }
 }
