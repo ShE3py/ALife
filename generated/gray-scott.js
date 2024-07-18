@@ -8,7 +8,6 @@ const preset_select = document.getElementById("preset");
 
 f_slider.onchange = function () {
     wasm.exports.set_f(this.value);
-    wasm.exports.reset_frame();
 };
 
 k_slider.onchange = function () {
@@ -74,4 +73,8 @@ document.getElementById("reset").onclick = function () {
     wasm.exports.set_Dt(1.0);
 
     preset_select.onchange(undefined);
+}
+
+document.getElementById("restart").onclick = function () {
+    wasm.exports.reset_frame();
 }
