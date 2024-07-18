@@ -1,19 +1,19 @@
 
-const f_slider  = document.getElementById("f");
-const k_slider  = document.getElementById("k");
 const ru_slider = document.getElementById("ru");
 const rv_slider = document.getElementById("rv");
+const f_slider  = document.getElementById("f");
+const k_slider  = document.getElementById("k");
 const Dt_slider = document.getElementById("Dt");
 const preset_select = document.getElementById("preset");
 
-f_slider.onchange = function () {
-    wasm.exports.set_f(this.value);
-};
-
-k_slider.onchange = function () {
-    wasm.exports.set_k(this.value);
+document.getElementById("init").onchange = function () {
+    wasm.exports.set_frame(this.value);
     wasm.exports.reset_frame();
-};
+}
+
+document.getElementById("restart").onclick = function () {
+    wasm.exports.reset_frame();
+}
 
 ru_slider.onchange = function () {
     wasm.exports.set_ru(this.value);
@@ -22,6 +22,15 @@ ru_slider.onchange = function () {
 
 rv_slider.onchange = function () {
     wasm.exports.set_rv(this.value);
+    wasm.exports.reset_frame();
+};
+
+f_slider.onchange = function () {
+    wasm.exports.set_f(this.value);
+};
+
+k_slider.onchange = function () {
+    wasm.exports.set_k(this.value);
     wasm.exports.reset_frame();
 };
 
@@ -59,9 +68,13 @@ preset_select.onchange = function () {
     wasm.exports.reset_frame();
 }
 
-document.getElementById("init").onchange = function () {
-    wasm.exports.set_frame(this.value);
-    wasm.exports.reset_frame();
+document.getElementById("color").onchange = function () {
+    const rgb = parseInt(this.value.substring(1), 16);
+    const r = (rgb >> 16) & 0xFF;
+    const g = (rgb >>  8) & 0xFF;
+    const b =  rgb        & 0xFF;
+
+    wasm.exports.set_color(r / 255, g / 255, b / 255);
 }
 
 document.getElementById("reset").onclick = function () {
@@ -73,17 +86,4 @@ document.getElementById("reset").onclick = function () {
     wasm.exports.set_Dt(1.0);
 
     preset_select.onchange(undefined);
-}
-
-document.getElementById("restart").onclick = function () {
-    wasm.exports.reset_frame();
-}
-
-document.getElementById("color").onchange = function () {
-    const rgb = parseInt(this.value.substring(1), 16);
-    const r = (rgb >> 16) & 0xFF;
-    const g = (rgb >>  8) & 0xFF;
-    const b =  rgb        & 0xFF;
-
-    wasm.exports.set_color(r / 255, g / 255, b / 255);
 }

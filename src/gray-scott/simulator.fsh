@@ -22,6 +22,7 @@ uniform float Dt;
 // Moore neighborhood
 vec2 laplacian(ivec2 coord) {
     vec2 sum = vec2(0.0);
+    
     const float CONVOLUTION[9] = float[] (
         0.05, 0.20, 0.05,
         0.20, -1.0, 0.20,

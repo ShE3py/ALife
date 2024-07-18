@@ -204,7 +204,7 @@ int main(void) {
     uru  = glGetUniformLocation(pSimulator, "ru");
     urv  = glGetUniformLocation(pSimulator, "rv");
     uDt  = glGetUniformLocation(pSimulator, "Dt");
-    urgb = glGetUniformLocation(pRenderer, "rgb");
+    urgb = glGetUniformLocation(pRenderer , "rgb");
     
     set_fk(0.046, 0.059);
     set_ru(1.0);
