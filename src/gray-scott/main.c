@@ -41,11 +41,11 @@ void set_rv(float vrv) {
     glUniform1f(urv, vrv);
 }
 
-static GLint udt = INVALID_UNIFORM;
+static GLint uDt = INVALID_UNIFORM;
 
-EXPORT("set_dt")
-void set_dt(float vdt) {
-    glUniform1f(udt, vdt);
+EXPORT("set_Dt")
+void set_Dt(float vDt) {
+    glUniform1f(uDt, vDt);
 }
 
 // INITIAL FRAMES //
@@ -138,12 +138,12 @@ int main(void) {
     uk  = glGetUniformLocation(pSimulator, "k");
     uru = glGetUniformLocation(pSimulator, "ru");
     urv = glGetUniformLocation(pSimulator, "rv");
-    udt = glGetUniformLocation(pSimulator, "dt");
+    uDt = glGetUniformLocation(pSimulator, "Dt");
     
     set_fk(0.046, 0.059);
     set_ru(1.0);
     set_rv(0.5);
-    set_dt(1.0);
+    set_Dt(1.0);
     
     main_loop();
     return 0;

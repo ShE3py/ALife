@@ -17,7 +17,7 @@ uniform float ru, rv;
 /**
  * The discretized time step.
  */
-uniform float dt;
+uniform float Dt;
 
 // Moore neighborhood
 vec2 laplacian(ivec2 coord) {
@@ -52,8 +52,8 @@ void main() {
     float v = data.g;
     
     vec2 laplace = laplacian(coord);
-    float U = u + ((ru * laplace.r) - (u * v * v) + (     f  * (1.0 - u))) * dt;
-    float V = v + ((rv * laplace.g) + (u * v * v) - ((k + f) *        v )) * dt;
+    float U = u + ((ru * laplace.r) - (u * v * v) + (     f  * (1.0 - u))) * Dt;
+    float V = v + ((rv * laplace.g) + (u * v * v) - ((k + f) *        v )) * Dt;
     
     color = vec3(U, V, 0);
 }

@@ -24,8 +24,8 @@ rv_slider.onchange = function () {
     wasm.exports.reset_frame();
 };
 
-document.getElementById("dt").onchange = function () {
-    wasm.exports.set_dt(this.value);
+document.getElementById("Dt").onchange = function () {
+    wasm.exports.set_Dt(this.value);
     wasm.exports.reset_frame();
 };
 
