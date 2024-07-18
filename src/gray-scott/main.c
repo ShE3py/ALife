@@ -129,6 +129,20 @@ void set_frame(int mode) {
                 frame[3 * i + 2] = 0;
             }
             break;
+        
+        // square
+        case 4:
+            for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
+                size_t x = i % WIDTH;
+                size_t y = i / WIDTH;
+                
+                frame[3 * i    ] = 1;
+                frame[3 * i + 1] = (x >= (size_t) WIDTH / 6) && (x <= (5 * (size_t) WIDTH) / 6) && (y >= (size_t) HEIGHT / 6) && (y <= (5 * (size_t) HEIGHT) / 6);
+                frame[3 * i + 2] = 0;
+            }
+            break;
+            
+            break;
     }
 }
 
