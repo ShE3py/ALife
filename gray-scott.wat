@@ -116,7 +116,7 @@
     i32.load offset=1268
     call $glUseProgram)
   (func $set_frame (export "set_frame") (type $t1) (param $p0 i32)
-    (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32) (local $l7 i32) (local $l8 i32) (local $l9 f32) (local $l10 f32)
+    (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 f32) (local $l6 f32) (local $l7 i32) (local $l8 i32) (local $l9 i32) (local $l10 i32) (local $l11 i32) (local $l12 i32)
     i32.const 0
     i32.load offset=1192
     local.tee $l1
@@ -130,10 +130,107 @@
         block $B2
           block $B3
             block $B4
-              local.get $p0
-              i32.const -1
-              i32.add
-              br_table $B3 $B4 $B2 $B1
+              block $B5
+                local.get $p0
+                i32.const -1
+                i32.add
+                br_table $B3 $B4 $B5 $B2 $B1
+              end
+              local.get $l3
+              i32.eqz
+              br_if $B0
+              local.get $l2
+              i32.const 6
+              i32.div_u
+              local.set $l4
+              f32.const 0x1p+0 (;=1;)
+              local.get $l1
+              f32.convert_i32_s
+              f32.div
+              local.set $l5
+              f32.const 0x1p+0 (;=1;)
+              local.get $l2
+              f32.convert_i32_s
+              f32.div
+              local.set $l6
+              local.get $l2
+              i32.const 5
+              i32.mul
+              i32.const 6
+              i32.div_u
+              local.set $l7
+              i32.const 0
+              i32.load offset=1272
+              local.set $p0
+              i32.const 0
+              local.set $l1
+              loop $L6
+                local.get $p0
+                i32.const 1065353216
+                i32.store
+                local.get $p0
+                i32.const 8
+                i32.add
+                i32.const 0
+                i32.store
+                local.get $p0
+                i32.const 4
+                i32.add
+                local.get $l1
+                local.get $l1
+                local.get $l2
+                i32.div_u
+                local.tee $l8
+                local.get $l2
+                i32.mul
+                i32.sub
+                local.tee $l9
+                local.get $l4
+                i32.ge_u
+                local.get $l8
+                f32.convert_i32_u
+                f32.const -0x1p+1 (;=-2;)
+                f32.mul
+                local.get $l5
+                f32.mul
+                f32.const 0x1p+0 (;=1;)
+                f32.add
+                local.get $l9
+                f32.convert_i32_u
+                f32.const 0x1.4p+3 (;=10;)
+                f32.mul
+                local.get $l6
+                f32.mul
+                call $cosf
+                f64.promote_f32
+                f64.const 0x1.570a3d70a3d71p-1 (;=0.67;)
+                f64.mul
+                f32.demote_f64
+                f32.add
+                f32.abs
+                f64.promote_f32
+                f64.const 0x1.47ae147ae147bp-7 (;=0.01;)
+                f64.le
+                i32.and
+                local.get $l9
+                local.get $l7
+                i32.le_u
+                i32.and
+                f32.convert_i32_u
+                f32.store
+                local.get $p0
+                i32.const 12
+                i32.add
+                local.set $p0
+                local.get $l3
+                local.get $l1
+                i32.const 1
+                i32.add
+                local.tee $l1
+                i32.ne
+                br_if $L6
+                br $B0
+              end
             end
             local.get $l3
             i32.eqz
@@ -141,21 +238,21 @@
             local.get $l2
             i32.const 3
             i32.div_s
-            local.set $l4
+            local.set $l9
             local.get $l1
             i32.const 2
             i32.div_s
-            local.set $l5
+            local.set $l7
             local.get $l2
             i32.const 2
             i32.div_s
-            local.set $l6
+            local.set $l10
             i32.const 0
             i32.load offset=1272
             local.set $p0
             i32.const 0
             local.set $l1
-            loop $L5
+            loop $L7
               local.get $p0
               i32.const 1065353216
               i32.store
@@ -169,39 +266,39 @@
               i32.add
               f32.const 0x1p+0 (;=1;)
               f32.const 0x0p+0 (;=0;)
-              local.get $l6
+              local.get $l10
               local.get $l1
               local.get $l2
               i32.div_u
-              local.tee $l7
+              local.tee $l8
               local.get $l2
               i32.mul
               local.get $l1
               i32.sub
               i32.add
-              local.tee $l8
-              local.get $l4
+              local.tee $l4
+              local.get $l9
               i32.add
+              local.get $l4
+              local.get $l9
+              i32.sub
+              i32.mul
+              local.get $l7
               local.get $l8
-              local.get $l4
               i32.sub
-              i32.mul
-              local.get $l5
-              local.get $l7
-              i32.sub
-              local.tee $l7
-              local.get $l7
+              local.tee $l8
+              local.get $l8
               i32.mul
               i32.add
-              local.tee $l7
-              local.get $l7
+              local.tee $l8
+              local.get $l8
               i32.const 31
               i32.shr_s
-              local.tee $l7
+              local.tee $l8
               i32.xor
-              local.get $l7
+              local.get $l8
               i32.sub
-              local.get $l4
+              local.get $l9
               i32.le_s
               select
               f32.store
@@ -215,7 +312,7 @@
               i32.add
               local.tee $l1
               i32.ne
-              br_if $L5
+              br_if $L7
               br $B0
             end
           end
@@ -225,23 +322,23 @@
           local.get $l2
           i32.const 6
           i32.div_u
-          local.set $l8
+          local.set $l4
           local.get $l1
           i32.const 1
           i32.shr_u
-          local.set $l5
+          local.set $l7
           local.get $l2
           i32.const 5
           i32.mul
           i32.const 6
           i32.div_u
-          local.set $l6
+          local.set $l10
           i32.const 0
           i32.load offset=1272
           local.set $p0
           i32.const 0
           local.set $l1
-          loop $L6
+          loop $L8
             local.get $p0
             i32.const 1065353216
             i32.store
@@ -257,19 +354,19 @@
             local.get $l1
             local.get $l2
             i32.div_u
-            local.tee $l4
+            local.tee $l9
             local.get $l2
             i32.mul
             i32.sub
-            local.tee $l7
-            local.get $l8
-            i32.ge_u
+            local.tee $l8
             local.get $l4
-            local.get $l5
+            i32.ge_u
+            local.get $l9
+            local.get $l7
             i32.eq
             i32.and
-            local.get $l7
-            local.get $l6
+            local.get $l8
+            local.get $l10
             i32.le_u
             i32.and
             f32.convert_i32_u
@@ -284,42 +381,70 @@
             i32.add
             local.tee $l1
             i32.ne
-            br_if $L6
+            br_if $L8
             br $B0
           end
         end
         local.get $l3
         i32.eqz
         br_if $B0
+        local.get $l1
+        i32.const 6
+        i32.div_u
+        local.set $l10
         local.get $l2
         i32.const 6
         i32.div_u
-        local.set $l8
-        f32.const 0x1p+0 (;=1;)
+        local.set $l7
         local.get $l1
-        f32.convert_i32_s
-        f32.div
-        local.set $l9
-        f32.const 0x1p+0 (;=1;)
-        local.get $l2
-        f32.convert_i32_s
-        f32.div
-        local.set $l10
+        i32.const 5
+        i32.mul
+        i32.const 6
+        i32.div_u
+        local.set $l11
         local.get $l2
         i32.const 5
         i32.mul
         i32.const 6
         i32.div_u
-        local.set $l5
+        local.set $l12
         i32.const 0
         i32.load offset=1272
         local.set $p0
         i32.const 0
         local.set $l1
-        loop $L7
+        loop $L9
           local.get $p0
           i32.const 1065353216
           i32.store
+          i32.const 0
+          local.set $l9
+          block $B10
+            local.get $l1
+            local.get $l1
+            local.get $l2
+            i32.div_u
+            local.tee $l8
+            local.get $l2
+            i32.mul
+            i32.sub
+            local.tee $l4
+            local.get $l7
+            i32.lt_u
+            br_if $B10
+            local.get $l4
+            local.get $l12
+            i32.le_u
+            local.get $l8
+            local.get $l11
+            i32.le_u
+            i32.and
+            local.get $l8
+            local.get $l10
+            i32.ge_u
+            i32.and
+            local.set $l9
+          end
           local.get $p0
           i32.const 8
           i32.add
@@ -328,46 +453,7 @@
           local.get $p0
           i32.const 4
           i32.add
-          local.get $l1
-          local.get $l1
-          local.get $l2
-          i32.div_u
-          local.tee $l7
-          local.get $l2
-          i32.mul
-          i32.sub
-          local.tee $l4
-          local.get $l8
-          i32.ge_u
-          local.get $l7
-          f32.convert_i32_u
-          f32.const -0x1p+1 (;=-2;)
-          f32.mul
           local.get $l9
-          f32.mul
-          f32.const 0x1p+0 (;=1;)
-          f32.add
-          local.get $l4
-          f32.convert_i32_u
-          f32.const 0x1.4p+3 (;=10;)
-          f32.mul
-          local.get $l10
-          f32.mul
-          call $cosf
-          f64.promote_f32
-          f64.const 0x1.570a3d70a3d71p-1 (;=0.67;)
-          f64.mul
-          f32.demote_f64
-          f32.add
-          f32.abs
-          f64.promote_f32
-          f64.const 0x1.47ae147ae147bp-7 (;=0.01;)
-          f64.le
-          i32.and
-          local.get $l4
-          local.get $l5
-          i32.le_u
-          i32.and
           f32.convert_i32_u
           f32.store
           local.get $p0
@@ -380,7 +466,7 @@
           i32.add
           local.tee $l1
           i32.ne
-          br_if $L7
+          br_if $L9
           br $B0
         end
       end
@@ -392,7 +478,7 @@
       local.set $p0
       i32.const 8
       local.set $l2
-      loop $L8
+      loop $L11
         local.get $p0
         local.get $l2
         i32.add
@@ -407,10 +493,10 @@
         local.tee $p0
         local.get $l2
         i32.add
-        local.tee $l4
+        local.tee $l9
         i32.const 0
         i32.store
-        local.get $l4
+        local.get $l9
         i32.const -4
         i32.add
         f32.const 0x1p+0 (;=1;)
@@ -432,7 +518,7 @@
         i32.const -1
         i32.add
         local.tee $l3
-        br_if $L8
+        br_if $L11
       end
     end)
   (func $__original_main (export "_initialize") (type $t3) (result i32)
