@@ -78,3 +78,12 @@ document.getElementById("reset").onclick = function () {
 document.getElementById("restart").onclick = function () {
     wasm.exports.reset_frame();
 }
+
+document.getElementById("color").onchange = function () {
+    const rgb = parseInt(this.value.substring(1), 16);
+    const r = (rgb >> 16) & 0xFF;
+    const g = (rgb >>  8) & 0xFF;
+    const b =  rgb        & 0xFF;
+
+    wasm.exports.set_color(r / 255, g / 255, b / 255);
+}

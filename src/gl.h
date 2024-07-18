@@ -73,6 +73,7 @@ IMPORT("glCopyTexSubImage2D") void glCopyTexSubImage2D(GLenum, GLint, GLint, GLi
 IMPORT("glPixelStorei") void glPixelStorei(GLenum, GLint);
 IMPORT("glGetUniformLocation") GLint glGetUniformLocation(GLuint, const GLchar*);
 IMPORT("glUniform1f") void glUniform1f(GLint, GLfloat);
+IMPORT("glUniform3f") void glUniform3f(GLint, GLfloat, GLfloat, GLfloat);
 
 #   endif // GL_H
 #endif // !__wasm__

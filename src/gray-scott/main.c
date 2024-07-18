@@ -8,7 +8,12 @@
 
 const char *const TITLE = "Gray-Scott";
 
+static float max(float, float, float);
+
 // Minimum OpenGL version: 3.0
+
+// GLOBALS //
+static GLprogram pRenderer = 0, pSimulator = 0;
 
 // CONFIG UNIFORMS //
 static GLint uf = INVALID_UNIFORM, uk = INVALID_UNIFORM;
@@ -46,6 +51,19 @@ static GLint uDt = INVALID_UNIFORM;
 EXPORT("set_Dt")
 void set_Dt(float vDt) {
     glUniform1f(uDt, vDt);
+}
+
+static GLint urgb = INVALID_UNIFORM;
+
+EXPORT("set_color")
+void set_rgb(float vr, float vg, float vb) {
+    // Brighten the color
+    float vm = max(vr, vg, vb);
+    float f = 1 / vm;
+    
+    glUseProgram(pRenderer);
+    glUniform3f(urgb, vr * f, vg * f, vb * f);
+    glUseProgram(pSimulator);
 }
 
 // INITIAL FRAMES //
@@ -122,8 +140,8 @@ int main(void) {
     GLshader sRenderer    = createShader("src/gray-scott/renderer.fsh" , GL_FRAGMENT_SHADER, "src/gray-scott/config.c");
     GLshader sSimulator   = createShader("src/gray-scott/simulator.fsh", GL_FRAGMENT_SHADER, "src/gray-scott/config.c");
     
-    GLprogram pRenderer = createProgram(sPassthrough, sRenderer);
-    GLprogram pSimulator = createProgram(sPassthrough, sSimulator);
+    pRenderer = createProgram(sPassthrough, sRenderer);
+    pSimulator = createProgram(sPassthrough, sSimulator);
     
     frame = malloc(WIDTH * HEIGHT * 3 * sizeof(float));
     if(!frame) {
@@ -134,18 +152,29 @@ int main(void) {
     set_frame(0);
     setup(frame, pRenderer, pSimulator);
     
-    uf  = glGetUniformLocation(pSimulator, "f");
-    uk  = glGetUniformLocation(pSimulator, "k");
-    uru = glGetUniformLocation(pSimulator, "ru");
-    urv = glGetUniformLocation(pSimulator, "rv");
-    uDt = glGetUniformLocation(pSimulator, "Dt");
+    uf   = glGetUniformLocation(pSimulator, "f");
+    uk   = glGetUniformLocation(pSimulator, "k");
+    uru  = glGetUniformLocation(pSimulator, "ru");
+    urv  = glGetUniformLocation(pSimulator, "rv");
+    uDt  = glGetUniformLocation(pSimulator, "Dt");
+    urgb = glGetUniformLocation(pRenderer, "rgb");
     
     set_fk(0.046, 0.059);
     set_ru(1.0);
     set_rv(0.5);
     set_Dt(1.0);
+    set_rgb(0.235, 1.000, 0.412);
     
     main_loop();
     return 0;
+}
+
+static float max(float x, float y, float z) {
+    if(x > y) {
+        return (z > x) ? z : x;
+    }
+    else /* y >= x */ {
+        return (z > y) ? z : y;
+    }
 }
 

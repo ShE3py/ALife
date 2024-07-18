@@ -174,7 +174,8 @@ if(supported) {
 
                 return uniforms.length;
             },
-            glUniform1f: (location, val) => cx.uniform1f(uniforms[location - 1], val),
+            glUniform1f: (location, val0) => cx.uniform1f(uniforms[location - 1], val0),
+            glUniform3f: (location, val0, val1, val2) => cx.uniform3f(uniforms[location - 1], val0, val1, val2),
         }
     };
 

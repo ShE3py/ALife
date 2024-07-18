@@ -1,54 +1,57 @@
 (module $gray-scott
   (type $t0 (func (param i32 f32)))
-  (type $t1 (func (result i32)))
-  (type $t2 (func (param i32 i32 i32) (result i32)))
-  (type $t3 (func (param i32 i32) (result i32)))
-  (type $t4 (func (param i32 i32)))
-  (type $t5 (func (param i32 i32 i32)))
-  (type $t6 (func (param i32 i32 i32 i32 i32 i32 i32 i32 i32)))
-  (type $t7 (func (param i32 i32 i32 i32 i32)))
-  (type $t8 (func (param i32)))
-  (type $t9 (func (param i32 i32 i32 i32)))
-  (type $t10 (func (param i32 i32 i32 i32 i32 i32)))
-  (type $t11 (func (param f32 f32 f32 f32)))
-  (type $t12 (func (param i32 i32 i32 i32 i32 i32 i32 i32)))
-  (type $t13 (func (param f32) (result f32)))
-  (type $t14 (func (param f32 f32)))
-  (type $t15 (func (param f32)))
-  (type $t16 (func))
-  (type $t17 (func (param i32) (result i32)))
+  (type $t1 (func (param i32)))
+  (type $t2 (func (param i32 f32 f32 f32)))
+  (type $t3 (func (result i32)))
+  (type $t4 (func (param i32 i32 i32) (result i32)))
+  (type $t5 (func (param i32 i32) (result i32)))
+  (type $t6 (func (param i32 i32)))
+  (type $t7 (func (param i32 i32 i32)))
+  (type $t8 (func (param i32 i32 i32 i32 i32 i32 i32 i32 i32)))
+  (type $t9 (func (param i32 i32 i32 i32 i32)))
+  (type $t10 (func (param i32 i32 i32 i32)))
+  (type $t11 (func (param i32 i32 i32 i32 i32 i32)))
+  (type $t12 (func (param f32 f32 f32 f32)))
+  (type $t13 (func (param i32 i32 i32 i32 i32 i32 i32 i32)))
+  (type $t14 (func (param f32) (result f32)))
+  (type $t15 (func (param f32 f32)))
+  (type $t16 (func (param f32)))
+  (type $t17 (func (param f32 f32 f32)))
+  (type $t18 (func))
+  (type $t19 (func (param i32) (result i32)))
   (import "common" "glUniform1f" (func $glUniform1f (type $t0)))
-  (import "libc" "rand" (func $rand (type $t1)))
-  (import "common" "createShader" (func $createShader (type $t2)))
-  (import "common" "glGetUniformLocation" (func $glGetUniformLocation (type $t3)))
-  (import "common" "glGenTextures" (func $glGenTextures (type $t4)))
-  (import "common" "glBindTexture" (func $glBindTexture (type $t4)))
-  (import "common" "glTexParameteri" (func $glTexParameteri (type $t5)))
-  (import "common" "glTexImage2D" (func $glTexImage2D (type $t6)))
-  (import "common" "glGenFramebuffers" (func $glGenFramebuffers (type $t4)))
-  (import "common" "glBindFramebuffer" (func $glBindFramebuffer (type $t4)))
-  (import "common" "glFramebufferTexture2D" (func $glFramebufferTexture2D (type $t7)))
-  (import "common" "glDrawBuffers" (func $glDrawBuffers (type $t4)))
-  (import "common" "glGenVertexArrays" (func $glGenVertexArrays (type $t4)))
-  (import "common" "glBindVertexArray" (func $glBindVertexArray (type $t8)))
-  (import "common" "glGenBuffers" (func $glGenBuffers (type $t4)))
-  (import "common" "glBindBuffer" (func $glBindBuffer (type $t4)))
-  (import "common" "glBufferData" (func $glBufferData (type $t9)))
-  (import "common" "glVertexAttribPointer" (func $glVertexAttribPointer (type $t10)))
-  (import "common" "glEnableVertexAttribArray" (func $glEnableVertexAttribArray (type $t8)))
-  (import "common" "glClearColor" (func $glClearColor (type $t11)))
-  (import "common" "glUseProgram" (func $glUseProgram (type $t8)))
-  (import "common" "glDrawArrays" (func $glDrawArrays (type $t5)))
-  (import "common" "glCopyTexSubImage2D" (func $glCopyTexSubImage2D (type $t12)))
-  (import "common" "glCreateProgram" (func $glCreateProgram (type $t1)))
-  (import "common" "glAttachShader" (func $glAttachShader (type $t4)))
-  (import "common" "glLinkProgram" (func $glLinkProgram (type $t8)))
-  (import "common" "glGetProgramiv" (func $glGetProgramiv (type $t5)))
-  (import "common" "glGetProgramInfoLog" (func $glGetProgramInfoLog (type $t9)))
-  (import "libc" "grow" (func $grow (type $t8)))
-  (import "libc" "fprint" (func $fprint (type $t5)))
-  (import "libm" "cosf" (func $cosf_hack (type $t13)))
-  (func $set_fk (export "set_fk") (type $t14) (param $p0 f32) (param $p1 f32)
+  (import "common" "glUseProgram" (func $glUseProgram (type $t1)))
+  (import "common" "glUniform3f" (func $glUniform3f (type $t2)))
+  (import "libc" "rand" (func $rand (type $t3)))
+  (import "common" "createShader" (func $createShader (type $t4)))
+  (import "common" "glGetUniformLocation" (func $glGetUniformLocation (type $t5)))
+  (import "common" "glGenTextures" (func $glGenTextures (type $t6)))
+  (import "common" "glBindTexture" (func $glBindTexture (type $t6)))
+  (import "common" "glTexParameteri" (func $glTexParameteri (type $t7)))
+  (import "common" "glTexImage2D" (func $glTexImage2D (type $t8)))
+  (import "common" "glGenFramebuffers" (func $glGenFramebuffers (type $t6)))
+  (import "common" "glBindFramebuffer" (func $glBindFramebuffer (type $t6)))
+  (import "common" "glFramebufferTexture2D" (func $glFramebufferTexture2D (type $t9)))
+  (import "common" "glDrawBuffers" (func $glDrawBuffers (type $t6)))
+  (import "common" "glGenVertexArrays" (func $glGenVertexArrays (type $t6)))
+  (import "common" "glBindVertexArray" (func $glBindVertexArray (type $t1)))
+  (import "common" "glGenBuffers" (func $glGenBuffers (type $t6)))
+  (import "common" "glBindBuffer" (func $glBindBuffer (type $t6)))
+  (import "common" "glBufferData" (func $glBufferData (type $t10)))
+  (import "common" "glVertexAttribPointer" (func $glVertexAttribPointer (type $t11)))
+  (import "common" "glEnableVertexAttribArray" (func $glEnableVertexAttribArray (type $t1)))
+  (import "common" "glClearColor" (func $glClearColor (type $t12)))
+  (import "common" "glDrawArrays" (func $glDrawArrays (type $t7)))
+  (import "common" "glCopyTexSubImage2D" (func $glCopyTexSubImage2D (type $t13)))
+  (import "common" "glCreateProgram" (func $glCreateProgram (type $t3)))
+  (import "common" "glAttachShader" (func $glAttachShader (type $t6)))
+  (import "common" "glLinkProgram" (func $glLinkProgram (type $t1)))
+  (import "common" "glGetProgramiv" (func $glGetProgramiv (type $t7)))
+  (import "common" "glGetProgramInfoLog" (func $glGetProgramInfoLog (type $t10)))
+  (import "libc" "grow" (func $grow (type $t1)))
+  (import "libc" "fprint" (func $fprint (type $t7)))
+  (import "libm" "cosf" (func $cosf_hack (type $t14)))
+  (func $set_fk (export "set_fk") (type $t15) (param $p0 f32) (param $p1 f32)
     i32.const 0
     i32.load offset=1232
     local.get $p0
@@ -57,38 +60,68 @@
     i32.load offset=1236
     local.get $p1
     call $glUniform1f)
-  (func $set_f (export "set_f") (type $t15) (param $p0 f32)
+  (func $set_f (export "set_f") (type $t16) (param $p0 f32)
     i32.const 0
     i32.load offset=1232
     local.get $p0
     call $glUniform1f)
-  (func $set_k (export "set_k") (type $t15) (param $p0 f32)
+  (func $set_k (export "set_k") (type $t16) (param $p0 f32)
     i32.const 0
     i32.load offset=1236
     local.get $p0
     call $glUniform1f)
-  (func $set_ru (export "set_ru") (type $t15) (param $p0 f32)
+  (func $set_ru (export "set_ru") (type $t16) (param $p0 f32)
     i32.const 0
     i32.load offset=1240
     local.get $p0
     call $glUniform1f)
-  (func $set_rv (export "set_rv") (type $t15) (param $p0 f32)
+  (func $set_rv (export "set_rv") (type $t16) (param $p0 f32)
     i32.const 0
     i32.load offset=1244
     local.get $p0
     call $glUniform1f)
-  (func $set_Dt (export "set_Dt") (type $t15) (param $p0 f32)
+  (func $set_Dt (export "set_Dt") (type $t16) (param $p0 f32)
     i32.const 0
     i32.load offset=1248
     local.get $p0
     call $glUniform1f)
-  (func $set_frame (export "set_frame") (type $t8) (param $p0 i32)
+  (func $set_rgb (export "set_color") (type $t17) (param $p0 f32) (param $p1 f32) (param $p2 f32)
+    (local $l3 f32)
+    i32.const 0
+    i32.load offset=1264
+    call $glUseProgram
+    i32.const 0
+    i32.load offset=1252
+    f32.const 0x1p+0 (;=1;)
+    local.get $p2
+    local.get $p0
+    local.get $p1
+    local.get $p0
+    local.get $p1
+    f32.gt
+    select
+    f32.max
+    f32.div
+    local.tee $l3
+    local.get $p0
+    f32.mul
+    local.get $l3
+    local.get $p1
+    f32.mul
+    local.get $l3
+    local.get $p2
+    f32.mul
+    call $glUniform3f
+    i32.const 0
+    i32.load offset=1268
+    call $glUseProgram)
+  (func $set_frame (export "set_frame") (type $t1) (param $p0 i32)
     (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32) (local $l7 i32) (local $l8 i32) (local $l9 f32) (local $l10 f32)
     i32.const 0
-    i32.load offset=1188
+    i32.load offset=1192
     local.tee $l1
     i32.const 0
-    i32.load offset=1184
+    i32.load offset=1188
     local.tee $l2
     i32.mul
     local.set $l3
@@ -118,7 +151,7 @@
             i32.div_s
             local.set $l6
             i32.const 0
-            i32.load offset=1260
+            i32.load offset=1272
             local.set $p0
             i32.const 0
             local.set $l1
@@ -204,7 +237,7 @@
           i32.div_u
           local.set $l6
           i32.const 0
-          i32.load offset=1260
+          i32.load offset=1272
           local.set $p0
           i32.const 0
           local.set $l1
@@ -279,7 +312,7 @@
         i32.div_u
         local.set $l5
         i32.const 0
-        i32.load offset=1260
+        i32.load offset=1272
         local.set $p0
         i32.const 0
         local.set $l1
@@ -355,7 +388,7 @@
       i32.eqz
       br_if $B0
       i32.const 0
-      i32.load offset=1260
+      i32.load offset=1272
       local.set $p0
       i32.const 8
       local.set $l2
@@ -370,7 +403,7 @@
         call $rand
         local.set $l1
         i32.const 0
-        i32.load offset=1260
+        i32.load offset=1272
         local.tee $p0
         local.get $l2
         i32.add
@@ -402,8 +435,8 @@
         br_if $L8
       end
     end)
-  (func $__original_main (export "_initialize") (type $t1) (result i32)
-    (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32) (local $l6 i32)
+  (func $__original_main (export "_initialize") (type $t3) (result i32)
+    (local $l0 i32) (local $l1 i32) (local $l2 i32) (local $l3 i32) (local $l4 i32)
     call $create_rcx
     i32.const 1035
     i32.const 35633
@@ -420,26 +453,29 @@
     i32.const 1128
     call $createShader
     local.set $l2
+    i32.const 0
     local.get $l0
     local.get $l1
     call $createProgram
-    local.set $l3
+    i32.store offset=1264
+    i32.const 0
     local.get $l0
     local.get $l2
     call $createProgram
-    local.set $l4
+    local.tee $l0
+    i32.store offset=1268
     i32.const 0
+    i32.const 0
+    i32.load offset=1192
     i32.const 0
     i32.load offset=1188
-    i32.const 0
-    i32.load offset=1184
     i32.mul
     local.tee $l2
     i32.const 12
     i32.mul
     call $malloc
     local.tee $l1
-    i32.store offset=1260
+    i32.store offset=1272
     block $B0
       local.get $l1
       i32.eqz
@@ -459,21 +495,21 @@
           i32.const 1065353216
           i32.store
           call $rand
-          local.set $l5
+          local.set $l3
           i32.const 0
-          i32.load offset=1260
+          i32.load offset=1272
           local.tee $l1
           local.get $l0
           i32.add
-          local.tee $l6
+          local.tee $l4
           i32.const 0
           i32.store
-          local.get $l6
+          local.get $l4
           i32.const -4
           i32.add
           f32.const 0x1p+0 (;=1;)
           f32.const 0x0p+0 (;=0;)
-          local.get $l5
+          local.get $l3
           f32.convert_i32_s
           f32.const 0x1p-31 (;=4.65661e-10;)
           f32.mul
@@ -492,36 +528,51 @@
           local.tee $l2
           br_if $L2
         end
+        i32.const 0
+        i32.load offset=1268
+        local.set $l0
       end
       local.get $l1
-      local.get $l3
-      local.get $l4
+      i32.const 0
+      i32.load offset=1264
+      local.get $l0
       call $setup
       i32.const 0
-      local.get $l4
+      i32.const 0
+      i32.load offset=1268
       i32.const 1119
       call $glGetUniformLocation
       i32.store offset=1232
       i32.const 0
-      local.get $l4
+      i32.const 0
+      i32.load offset=1268
       i32.const 1033
       call $glGetUniformLocation
       i32.store offset=1236
       i32.const 0
-      local.get $l4
+      i32.const 0
+      i32.load offset=1268
       i32.const 1027
       call $glGetUniformLocation
       i32.store offset=1240
       i32.const 0
-      local.get $l4
+      i32.const 0
+      i32.load offset=1268
       i32.const 1024
       call $glGetUniformLocation
       i32.store offset=1244
       i32.const 0
-      local.get $l4
+      i32.const 0
+      i32.load offset=1268
       i32.const 1030
       call $glGetUniformLocation
       i32.store offset=1248
+      i32.const 0
+      i32.const 0
+      i32.load offset=1264
+      i32.const 1152
+      call $glGetUniformLocation
+      i32.store offset=1252
       i32.const 0
       i32.load offset=1232
       f32.const 0x1.78d4fep-5 (;=0.046;)
@@ -542,6 +593,18 @@
       i32.load offset=1248
       f32.const 0x1p+0 (;=1;)
       call $glUniform1f
+      i32.const 0
+      i32.load offset=1264
+      call $glUseProgram
+      i32.const 0
+      i32.load offset=1252
+      f32.const 0x1.e147aep-3 (;=0.235;)
+      f32.const 0x1p+0 (;=1;)
+      f32.const 0x1.a5e354p-2 (;=0.412;)
+      call $glUniform3f
+      i32.const 0
+      i32.load offset=1268
+      call $glUseProgram
       call $main_loop
       i32.const 0
       return
@@ -551,16 +614,16 @@
     i32.const 1
     call $exit
     unreachable)
-  (func $create_rcx (type $t16)
-    i32.const 0
-    i32.const 0
-    i32.load offset=1184
-    i32.store offset=1264
+  (func $create_rcx (type $t18)
     i32.const 0
     i32.const 0
     i32.load offset=1188
-    i32.store offset=1268)
-  (func $setup (type $t5) (param $p0 i32) (param $p1 i32) (param $p2 i32)
+    i32.store offset=1276
+    i32.const 0
+    i32.const 0
+    i32.load offset=1192
+    i32.store offset=1280)
+  (func $setup (type $t7) (param $p0 i32) (param $p1 i32) (param $p2 i32)
     (local $l3 i32)
     global.get $__stack_pointer
     i32.const 64
@@ -569,13 +632,13 @@
     global.set $__stack_pointer
     i32.const 0
     local.get $p1
-    i32.store offset=1276
+    i32.store offset=1288
     i32.const 0
     local.get $p0
-    i32.store offset=1272
+    i32.store offset=1284
     i32.const 0
     local.get $p2
-    i32.store offset=1280
+    i32.store offset=1292
     i32.const 1
     local.get $l3
     i32.const 60
@@ -597,9 +660,9 @@
     i32.const 0
     i32.const 6407
     i32.const 0
-    i32.load offset=1264
+    i32.load offset=1276
     i32.const 0
-    i32.load offset=1268
+    i32.load offset=1280
     i32.const 0
     i32.const 6407
     i32.const 5126
@@ -626,21 +689,21 @@
     i32.const 0
     i32.const 6407
     i32.const 0
-    i32.load offset=1264
+    i32.load offset=1276
     i32.const 0
-    i32.load offset=1268
+    i32.load offset=1280
     i32.const 0
     i32.const 6407
     i32.const 5126
     i32.const 0
-    i32.load offset=1272
+    i32.load offset=1284
     call $glTexImage2D
     i32.const 1
-    i32.const 1284
+    i32.const 1296
     call $glGenFramebuffers
     i32.const 36160
     i32.const 0
-    i32.load offset=1284
+    i32.load offset=1296
     call $glBindFramebuffer
     i32.const 36160
     i32.const 36064
@@ -716,30 +779,30 @@
     f32.const 0x1p+0 (;=1;)
     call $glClearColor
     i32.const 0
-    i32.load offset=1280
+    i32.load offset=1292
     call $glUseProgram
     local.get $l3
     i32.const 64
     i32.add
     global.set $__stack_pointer)
-  (func $reset_frame (export "reset_frame") (type $t16)
+  (func $reset_frame (export "reset_frame") (type $t18)
     i32.const 3553
     i32.const 0
     i32.const 6407
     i32.const 0
-    i32.load offset=1264
+    i32.load offset=1276
     i32.const 0
-    i32.load offset=1268
+    i32.load offset=1280
     i32.const 0
     i32.const 6407
     i32.const 5126
     i32.const 0
-    i32.load offset=1272
+    i32.load offset=1284
     call $glTexImage2D)
-  (func $next_frame (export "next_frame") (type $t16)
+  (func $next_frame (export "next_frame") (type $t18)
     i32.const 36160
     i32.const 0
-    i32.load offset=1284
+    i32.load offset=1296
     call $glBindFramebuffer
     i32.const 5
     i32.const 0
@@ -752,15 +815,15 @@
     i32.const 0
     i32.const 0
     i32.const 0
-    i32.load offset=1264
+    i32.load offset=1276
     i32.const 0
-    i32.load offset=1268
+    i32.load offset=1280
     call $glCopyTexSubImage2D
     i32.const 36160
     i32.const 0
     call $glBindFramebuffer
     i32.const 0
-    i32.load offset=1276
+    i32.load offset=1288
     call $glUseProgram
     i32.const 5
     i32.const 0
@@ -768,10 +831,10 @@
     call $glDrawArrays
     call $write_frame
     i32.const 0
-    i32.load offset=1280
+    i32.load offset=1292
     call $glUseProgram)
-  (func $main_loop (type $t16))
-  (func $createProgram (type $t3) (param $p0 i32) (param $p1 i32) (result i32)
+  (func $main_loop (type $t18))
+  (func $createProgram (type $t5) (param $p0 i32) (param $p1 i32) (result i32)
     (local $l2 i32) (local $l3 i32) (local $l4 i32) (local $l5 i32)
     global.get $__stack_pointer
     i32.const 32
@@ -826,7 +889,7 @@
         local.get $p0
         i32.store
         i32.const 1
-        i32.const 1152
+        i32.const 1156
         local.get $l2
         call $fprintf
         drop
@@ -848,17 +911,17 @@
     i32.const 1
     call $exit
     unreachable)
-  (func $write_frame (type $t16))
-  (func $malloc (type $t17) (param $p0 i32) (result i32)
+  (func $write_frame (type $t18))
+  (func $malloc (type $t19) (param $p0 i32) (result i32)
     (local $l1 i32)
     block $B0
       i32.const 0
-      i32.load offset=1252
+      i32.load offset=1256
       local.tee $l1
-      i32.const 66832
+      i32.const 66848
       i32.sub
       i32.const 0
-      i32.load offset=1256
+      i32.load offset=1260
       i32.const 16
       i32.shl
       i32.add
@@ -876,25 +939,25 @@
       call $grow
       i32.const 0
       i32.const 0
-      i32.load offset=1256
+      i32.load offset=1260
       local.get $l1
       i32.add
-      i32.store offset=1256
+      i32.store offset=1260
       i32.const 0
-      i32.load offset=1252
+      i32.load offset=1256
       local.set $l1
     end
     i32.const 0
     local.get $l1
     local.get $p0
     i32.add
-    i32.store offset=1252
+    i32.store offset=1256
     local.get $l1)
-  (func $free (type $t8) (param $p0 i32))
-  (func $exit (type $t8) (param $p0 i32)
+  (func $free (type $t1) (param $p0 i32))
+  (func $exit (type $t1) (param $p0 i32)
     unreachable
     unreachable)
-  (func $fprintf (type $t2) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
+  (func $fprintf (type $t4) (param $p0 i32) (param $p1 i32) (param $p2 i32) (result i32)
     (local $l3 i32)
     global.get $__stack_pointer
     i32.const 16
@@ -927,13 +990,13 @@
     i32.add
     global.set $__stack_pointer
     local.get $p2)
-  (func $perror (type $t8) (param $p0 i32)
+  (func $perror (type $t1) (param $p0 i32)
     i32.const 1
     local.get $p0
     local.get $p0
     call $strlen
     call $fprint)
-  (func $strlen (type $t17) (param $p0 i32) (result i32)
+  (func $strlen (type $t19) (param $p0 i32) (result i32)
     (local $l1 i32) (local $l2 i32) (local $l3 i32)
     i32.const 0
     local.set $l1
@@ -954,11 +1017,11 @@
     local.get $l3
     i32.const -1
     i32.add)
-  (func $cosf (type $t13) (param $p0 f32) (result f32)
+  (func $cosf (type $t14) (param $p0 f32) (result f32)
     local.get $p0
     call $cosf_hack)
   (table $T0 1 1 funcref)
   (memory $memory (export "memory") 2)
-  (global $__stack_pointer (mut i32) (i32.const 66832))
-  (data $.rodata (i32.const 1024) "rv\00ru\00Dt\00k\00src/common/passthrough.vsh\00src/gray-scott/simulator.fsh\00src/gray-scott/renderer.fsh\00f\00malloc\00src/gray-scott/config.c\00could not link %u and %u: %s\0a\00\00\00\d0\02\00\00\d0\02\00\00\00\00\00\00\00\00\00\00\00\00\80\bf\00\00\80\bf\00\00\80\bf\00\00\80?\00\00\80?\00\00\80\bf\00\00\80?\00\00\80?")
-  (data $.data (i32.const 1232) "\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\10\05\01\00\01\00\00\00"))
+  (global $__stack_pointer (mut i32) (i32.const 66848))
+  (data $.rodata (i32.const 1024) "rv\00ru\00Dt\00k\00src/common/passthrough.vsh\00src/gray-scott/simulator.fsh\00src/gray-scott/renderer.fsh\00f\00malloc\00src/gray-scott/config.c\00rgb\00could not link %u and %u: %s\0a\00\00\00\d0\02\00\00\d0\02\00\00\00\00\00\00\00\00\80\bf\00\00\80\bf\00\00\80\bf\00\00\80?\00\00\80?\00\00\80\bf\00\00\80?\00\00\80?")
+  (data $.data (i32.const 1232) "\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f \05\01\00\01\00\00\00"))
