@@ -13,17 +13,25 @@
 		<canvas id="canvas" width="720" height="720" style="border-style: ridge; border-color: black;"></canvas>
 
 		<div style="float: right; display: grid; padding: 1em;">
-			<label for="f">Feed Rate</label>
-			<input type="range" id="f" min="0" max="0.1" step="0.001" value="0.055" />
+			<label for="init">Initial Configuration</label>
+			<select id="init">
+				<option value="0" selected>Random</option>
+				<option value="2">Circle</option>
+				<option value="3">Sinusoid</option>
+				<option value="1">Line</option>
+			</select>
 
-			<label for="k">Kill Rate</label>
-			<input type="range" id="k" min="0" max="0.1" step="0.001" value="0.062" />
-
-			<label for="ru">Liveliness</label>
+			<label for="ru">Life Spread</label>
 			<input type="range" id="ru" min="0" max="1" step="0.01" value="1.00" />
 
-			<label for="rv">Deadness</label>
+			<label for="rv">Death Spread</label>
 			<input type="range" id="rv" min="0" max="1" step="0.01" value="0.50" />
+
+			<label for="f">Growth Steadiness</label>
+			<input type="range" id="f" min="0" max="0.1" step="0.001" value="0.055" />
+
+			<label for="k">Death Rate</label>
+			<input type="range" id="k" min="0" max="0.1" step="0.001" value="0.062" />
 
 			<label for="Dt">&Delta;t</label>
 			<input type="range" id="Dt" min="0" max="1" step="0.01" value="1" />
@@ -47,14 +55,6 @@
 				<option value="14">Pi</option>
 				<option value="15">Rho</option>
 				<option value="16">Sigma</option>
-			</select>
-
-			<label for="init">Initial Configuration</label>
-			<select id="init">
-				<option value="0" selected>Random</option>
-				<option value="2">Circle</option>
-				<option value="3">Sinusoid</option>
-				<option value="1">Line</option>
 			</select>
 		</div>
 	</body>
