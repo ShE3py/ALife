@@ -14,7 +14,7 @@ vec3 hsv2rgb(vec3 c) {
 void main() {
     vec4 data = texelFetch(world, ivec2(gl_FragCoord.xy), 0);
     
-    color = vec3(0.369, 0.506, 0.675) * vec3((1.0 / 0.675) * data.g);
+    color = vec3(1, 0.669, 0.959) * vec3(data.g);
     //color = hsv2rgb(vec3(data.g, 1, 1));
 }
 
