@@ -77,7 +77,7 @@
     i32.load offset=1244
     local.get $p0
     call $glUniform1f)
-  (func $set_dt (export "set_dt") (type $t15) (param $p0 f32)
+  (func $set_Dt (export "set_Dt") (type $t15) (param $p0 f32)
     i32.const 0
     i32.load offset=1248
     local.get $p0
@@ -960,5 +960,5 @@
   (table $T0 1 1 funcref)
   (memory $memory (export "memory") 2)
   (global $__stack_pointer (mut i32) (i32.const 66832))
-  (data $.rodata (i32.const 1024) "rv\00ru\00dt\00k\00src/common/passthrough.vsh\00src/gray-scott/simulator.fsh\00src/gray-scott/renderer.fsh\00f\00malloc\00src/gray-scott/config.c\00could not link %u and %u: %s\0a\00\00\00\d0\02\00\00\d0\02\00\00\00\00\00\00\00\00\00\00\00\00\80\bf\00\00\80\bf\00\00\80\bf\00\00\80?\00\00\80?\00\00\80\bf\00\00\80?\00\00\80?")
+  (data $.rodata (i32.const 1024) "rv\00ru\00Dt\00k\00src/common/passthrough.vsh\00src/gray-scott/simulator.fsh\00src/gray-scott/renderer.fsh\00f\00malloc\00src/gray-scott/config.c\00could not link %u and %u: %s\0a\00\00\00\d0\02\00\00\d0\02\00\00\00\00\00\00\00\00\00\00\00\00\80\bf\00\00\80\bf\00\00\80\bf\00\00\80?\00\00\80?\00\00\80\bf\00\00\80?\00\00\80?")
   (data $.data (i32.const 1232) "\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\ff\ff\ff\7f\10\05\01\00\01\00\00\00"))
