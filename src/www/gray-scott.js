@@ -3,6 +3,8 @@ const f_slider  = document.getElementById("f");
 const k_slider  = document.getElementById("k");
 const ru_slider = document.getElementById("ru");
 const rv_slider = document.getElementById("rv");
+const Dt_slider = document.getElementById("Dt");
+const preset_select = document.getElementById("preset");
 
 f_slider.onchange = function () {
     wasm.exports.set_f(this.value);
@@ -24,12 +26,12 @@ rv_slider.onchange = function () {
     wasm.exports.reset_frame();
 };
 
-document.getElementById("Dt").onchange = function () {
+Dt_slider.onchange = function () {
     wasm.exports.set_Dt(this.value);
     wasm.exports.reset_frame();
 };
 
-document.getElementById("preset").onchange = function () {
+preset_select.onchange = function () {
     const FK = [
         [0.010, 0.047], // Alpha
         [0.014, 0.039], // Beta
@@ -55,17 +57,21 @@ document.getElementById("preset").onchange = function () {
     k_slider.value = k;
 
     wasm.exports.set_fk(f, k);
-
-    // Also reset ru & rv
-    ru_slider.value = 1.0;
-    rv_slider.value = 0.5;
-    wasm.exports.set_ru(1.0);
-    wasm.exports.set_rv(0.5);
-
     wasm.exports.reset_frame();
 }
 
 document.getElementById("init").onchange = function () {
     wasm.exports.set_frame(this.value);
     wasm.exports.reset_frame();
+}
+
+document.getElementById("reset").onclick = function () {
+    ru_slider.value = 1.0;
+    rv_slider.value = 0.5;
+    Dt_slider.value = 1.0;
+    wasm.exports.set_ru(1.0);
+    wasm.exports.set_rv(0.5);
+    wasm.exports.set_Dt(1.0);
+
+    preset_select.onchange(undefined);
 }
