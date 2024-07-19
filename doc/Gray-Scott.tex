@@ -1,0 +1,214 @@
+\documentclass[11pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{siunitx}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{tabularx}
+
+\usepackage{csquotes}
+
+\usepackage{microtype}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\title{Vie artificielle}
+\subtitle{Croissance des organismes}
+
+\begin{document}
+    \maketitle
+
+    \section{Introduction}\label{sec:intro}
+
+        Le motif de Turing\footnote{\url{https://en.wikipedia.org/wiki/Turing_pattern}} est un système de
+        réaction-diffusion qu'Alan Turing décrit dans son article
+        \emph{The Chemical Basis of Morphogenesis}
+        \footnote{\url{https://fr.wikipedia.org/wiki/The\_Chemical\_Basis\_of\_Morphogenesis}} en 1952 ;
+
+        \textquote[Wikipédia]{Un système de réaction-diffusion est un modèle mathématique qui décrit
+        l'évolution des concentrations d'une ou plusieurs substances spatialement distribuées et soumises à
+        deux processus : un processus de réactions chimiques locales, dans lequel les différentes substances
+        se transforment, et un processus de diffusion qui provoque une répartition de ces substances dans
+        l'espace.}
+
+        Un tel système peut être décrit par une équation différentielle partielle :
+        \[
+            \partial_t \, q = R(q) + \underline{D} \, \overrightarrow{\nabla}^2 q
+        \]
+
+        Où :
+        \begin{itemize}
+            \setlength\itemsep{.5em}
+            \item $q = (q_1, q_2, \dots, q_n)$ représente la concentration chimique des $n$ substances du système ;
+            \item $\partial_t \, q$ représente comment ces substances $q$ évoluent avec le temps $t$ ;
+            \item $R$ représente toutes les réactions chimiques locales qui s'appliquent aux substances $q$ ;
+            \item $\overrightarrow{\nabla}^2 q$ représente la diffusion des substances $q$ dans l'espace ;
+            \item $\underline{D}$ représente les coefficients de cette diffusion.
+        \end{itemize}
+
+    \section{Le modèle de Gray--Scott}\label{sec:gray-scott}
+
+        Peter Gray et S. K. Scott proposèrent en 1983 un
+        modèle\footnote{\url{https://groups.csail.mit.edu/mac/projects/amorphous/GrayScott/}} revisitant celui de
+        Turing\footnote{\url{https://git.litislab.fr/dolivier/VieArtificielle/-/wikis/Croissance-Des-Organismes\#morphogen\%C3\%A8se}}.
+        Leur modèle contient deux espèces chimiques :
+
+        \begin{itemize}
+            \item $U$, représentant la mort ;
+            \item $V$, représentant la vie.
+        \end{itemize}
+
+        Ces espèce sont réagies par deux équations chimiques :
+        \begin{align}
+            U + 2V &\longrightarrow 3V \label{eq:birth} \\
+            V &\longrightarrow P \label{eq:decay}
+        \end{align}
+
+        L'équation~\ref{eq:birth} indique que la mort se transforme en vie au contact de la vie,
+        l'équation~\ref{eq:decay} indique que la vie se dégrade périodiquement en $P$ (e.g.\ meurt sans pouvoir
+        renaître).
+
+        Cela donne le système suivant :
+        \begin{gather*}
+            \partial_t \, u = r_u \overrightarrow{\nabla}^2 u - uv^2 + f(1 - u) \\
+            \partial_t \, v = r_v \overrightarrow{\nabla}^2 v + uv^2 - (f + k)v
+        \end{gather*}
+
+        En choisissant un pas de temps $\Delta t$, l'on peut calculer la variation des concentrations sur ce pas $\Delta t$ :
+        \begin{gather*}
+            \Delta u = \left(r_u \overrightarrow{\nabla}^2 u - uv^2 + f(1 - u)\right)\Delta t \\
+            \Delta v = \left(r_v \overrightarrow{\nabla}^2 v + uv^2 - (f + k)v\right)\Delta t
+        \end{gather*}
+
+        Où :
+        \begin{itemize}
+            \setlength\itemsep{.05em}
+            \item $\Delta u$ et $\Delta v$ représentent l'évolution des concentrations ;
+            \item $\overrightarrow{\nabla}^2$ représente la diffusion dans l'espace ;
+            \item $u$, $v$, $r$, $f$ et $k$ sont tous entre $0.0$ et $1.0$ ;
+            \item $r$ représente le taux de diffusion ;
+            \item $u$ et $v$ représentent les concentrations actuelles ;
+            \item $f$ la vitesse la laquelle $U$ apparaît (l'on suppose que le système baigne dans une solution
+                  riche en $U$) ;
+            \item $k$ la vitesse de la réaction de
+                  dégradation~\ref{eq:decay} (l'on ajoute $f$ pour faire que $v$ se
+                  détériore plus vite que $u$ n'apparaît).
+        \end{itemize}
+
+    \section{Simulation}\label{sec:simulation}
+
+        Le motif est simulé sur une grille de pixels ; chaque pixel a deux composantes $u$ et $v$ (entre $0.0$ et $1.0$)
+        qui représentent la concentration des deux espèces chimiques.
+
+        À chaque pas de temps, il suffit de calculer les nouvelles concentrations à partir des anciennes :
+        \begin{gather*}
+            u_{i + 1} = u_i + \Delta u \\
+            v_{i + 1} = v_i + \Delta v
+        \end{gather*}
+
+        \subsection{Calcul de $\overrightarrow{\nabla}^2$}\label{subsec:laplace}
+
+            Le laplacien, noté $\overrightarrow{\nabla}^2$, $\nabla^2$, ou encore $\Delta$, s'applique à
+            un point et représente le gain (ou la perte) en concentration par effet de diffusion.
+            On peut l'exprimer par une matrice :
+            \[
+                \begin{bmatrix}
+                    0 & 0.25 & 0 \\
+                    0.25 & -1 & 0.25 \\
+                    0 & 0.25 & 0
+                \end{bmatrix}
+            \]
+
+            La somme des termes est égale à $0$ (sinon on créerait/enlèverait de la concentration).
+            Ici, le point perd toute sa concentration mais gagne quatre fois 25\% de la concentration de ses voisins.
+
+        \subsection{Pseudo-code}\label{subsec:pseudo-code}
+
+            \begin{verbatim}
+float laplacian(int x, int y) {
+    float sum = 0.0;
+
+    const float MATRIX[9] = float[] (
+        0.00, 0.25, 0.00,
+        0.25, -1.0, 0.25,
+        0.00, 0.25, 0.00
+    );
+
+    for(int dx = -1; dx <= 1; dx++) {
+        for(int dy = -1; dy <= 1; dy++) {
+            int offset = (3 * (dy + 1)) + (dx + 1);
+
+            sum += grid[x + dx][y + dy].u * MATRIX[offset];
+        }
+    }
+
+    return sum;
+}
+            \end{verbatim}
+
+            \begin{verbatim}
+// Paramètres //
+float ru = 1, rv = 0.5;
+float f = 0.046, k = 0.059;
+float Dt = 1;
+
+struct Cell {
+    float u, v;
+};
+
+const int WIDTH = 256;
+const int HEIGHT = 256;
+
+Cell[WIDTH][HEIGHT] grid;
+Cell[WIDTH][HEIGHT] nextGrid;
+
+for ever {
+    // Mise à jour des pixels
+    for(int x = 0; x < WIDTH; x++) {
+        for(int y = 0; y < HEIGHT; y++) {
+            Cell cell = grid[x][y];
+            float u = cell.u;
+            float v = cell.v;
+
+            Cell laplace = laplacian(x, y);
+            float U = u + ((ru * laplace.u) - (u * v * v) + (     f  * (1.0 - u))) * Dt;
+            float V = v + ((rv * laplace.v) + (u * v * v) - ((k + f) *        v )) * Dt;
+
+            nextGrid[x][y] = Cell(U, V);
+        }
+    }
+
+    // Idéalement un swap de pointeurs (pour pas recopier tout le tableau)
+    swap(grid, nextGrid);
+
+    // Dessiner `grid` à l'écran
+    render();
+}
+            \end{verbatim}
+
+    \section{Classification}\label{sec:classification}
+
+        Le système est décrit par Robert Munafo avec trois paramètres\footnote{\url{https://mrob.com/sci/papers/munafo2010-0601.pdf}}
+        $f$, $k$ et $\sigma = r_u / r_v$.
+        L'auteur propose une classification des paramètres\footnote{\url{https://mrob.com/pub/comp/xmorphia/pearson-classes.html}}
+        sur son site web, ainsi qu'une nomenclature des motifs\footnote{\url{https://mrob.com/pub/comp/xmorphia/glossary.html}} que l'on
+        peut trouver.
+
+    \section{Simulateurs}\label{sec:simulateurs}
+
+        \begin{itemize}
+            \item \url{https://pmneila.github.io/jsexp/grayscott/}
+            \item \url{https://mrob.com/pub/comp/xmorphia/ogl/index.html}
+            \item \url{https://itp.uni-frankfurt.de/~gros/StudentProjects/Projects_2020/projekt_schulz_kaefer/#simulation}
+            \item \url{https://she3py.github.io/ALife/gray-scott.html}
+        \end{itemize}
+
+\end{document}
