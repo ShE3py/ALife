@@ -43,6 +43,7 @@ if(supported) {
         },
         libm: {
             cosf: Math.cos,
+            fmodf: (x, y) => x % y,
         },
         common: {
             createShader: (filenamePtr, shaderType, configFilenamePtr) => {

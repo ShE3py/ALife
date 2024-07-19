@@ -6,6 +6,8 @@
 #include "common/shader.h"
 #include "common/config.h"
 
+#include "xmorphia.h"
+
 const char *const TITLE = "Gray-Scott";
 
 static float max(float, float, float);
@@ -17,21 +19,26 @@ static GLprogram pRenderer = 0, pSimulator = 0;
 
 // CONFIG UNIFORMS //
 static GLint uf = INVALID_UNIFORM, uk = INVALID_UNIFORM;
+static float f = 0, k = 0;
 
 EXPORT("set_fk")
 void set_fk(float vf, float vk) {
     glUniform1f(uf, vf);
     glUniform1f(uk, vk);
+    f = vf;
+    k = vk;
 }
 
 EXPORT("set_f")
 void set_f(float vf) {
     glUniform1f(uf, vf);
+    f = vf;
 }
 
 EXPORT("set_k")
 void set_k(float vk) {
     glUniform1f(uk, vk);
+    k = vk;
 }
 
 static GLint uru = INVALID_UNIFORM, urv = INVALID_UNIFORM;
@@ -79,6 +86,17 @@ void set_frame(int mode) {
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 frame[3 * i    ] = 1;
                 frame[3 * i + 1] = rand() / (float) RAND_MAX > 0.995;
+                frame[3 * i + 2] = 0;
+            }
+            break;
+        
+        // Gradient
+        case 7:
+            for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
+                size_t x = i % WIDTH;
+                size_t y = i / WIDTH;
+                
+                noise(f, k, &frame[3 * i], x, y);
                 frame[3 * i + 2] = 0;
             }
             break;
