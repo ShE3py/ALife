@@ -751,7 +751,7 @@
         f32.const 0x1p-31 (;=4.65661e-10;)
         f32.mul
         f64.promote_f32
-        f64.const 0x1.fae147ae147aep-1 (;=0.99;)
+        f64.const 0x1.fd70a3d70a3d7p-1 (;=0.995;)
         f64.gt
         select
         f32.store
@@ -845,7 +845,7 @@
           f32.const 0x1p-31 (;=4.65661e-10;)
           f32.mul
           f64.promote_f32
-          f64.const 0x1.fae147ae147aep-1 (;=0.99;)
+          f64.const 0x1.fd70a3d70a3d7p-1 (;=0.995;)
           f64.gt
           select
           f32.store
