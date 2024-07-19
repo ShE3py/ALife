@@ -78,7 +78,7 @@ void set_frame(int mode) {
         default:
             for(size_t i = 0; i < (size_t) WIDTH * HEIGHT; ++i) {
                 frame[3 * i    ] = 1;
-                frame[3 * i + 1] = rand() / (float) RAND_MAX > 0.99;
+                frame[3 * i + 1] = rand() / (float) RAND_MAX > 0.995;
                 frame[3 * i + 2] = 0;
             }
             break;
