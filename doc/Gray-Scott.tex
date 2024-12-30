@@ -96,7 +96,7 @@
             \item $u$, $v$, $r$, $f$ et $k$ sont tous entre $0.0$ et $1.0$ ;
             \item $r$ représente le taux de diffusion ;
             \item $u$ et $v$ représentent les concentrations actuelles ;
-            \item $f$ la vitesse la laquelle $U$ apparaît (l'on suppose que le système baigne dans une solution
+            \item $f$ la vitesse à laquelle $U$ apparaît (l'on suppose que le système baigne dans une solution
                   riche en $U$) ;
             \item $k$ la vitesse de la réaction de
                   dégradation~\ref{eq:decay} (l'on ajoute $f$ pour faire que $v$ se
@@ -182,6 +182,8 @@ for ever {
             float U = u + ((ru * laplace.u) - (u * v * v) + (     f  * (1.0 - u))) * Dt;
             float V = v + ((rv * laplace.v) + (u * v * v) - ((k + f) *        v )) * Dt;
 
+            U = clamp(U, 0.0, 1.0);
+            V = clamp(V, 0.0, 1.0);
             nextGrid[x][y] = Cell(U, V);
         }
     }
